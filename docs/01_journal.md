@@ -242,3 +242,11 @@ standard deviation, so this is a consistent small edge, not a statistically prov
   `infer.js` added), so the local FastAPI version keeps working unchanged.
 * Live: https://huggingface.co/spaces/AD074890/ripe-or-not
   (direct: https://ad074890-ripe-or-not.static.hf.space)
+
+## 2026-11-17 · Step 14 – GitHub repository
+
+Pushed to https://github.com/AyushDas4890/Fruit-ripening-grading-system with a README in the
+template style: animated SVG banner and ripeness ruler (`docs/assets/`), live demo + slides
+links, screenshots, results, Grad-CAM, a mermaid pipeline diagram and collapsible details.
+Not committed (see `.gitignore`): the 2 GB raw dataset, the 45 trained weight files
+(1.3 GB, rebuild with `src/run_all.py`), and build outputs. The deployed ONNX models are on the Space.
