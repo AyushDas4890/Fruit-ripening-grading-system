@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ripeness Grading – Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,700..900,100&family=Gochi+Hand&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/presentation.css">
+</head>
+<body class="deck-body">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid-peri" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#A3B8FA"/><path d="M28 0H0V28" fill="none" stroke="#7B83EB" stroke-width="1.5"/></pattern>
+    <pattern id="grid-sun" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#FFDA9C"/><path d="M28 0H0V28" fill="none" stroke="#F7A440" stroke-width="1.5"/></pattern>
+    <pattern id="grid-pink" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#F07CA0"/><path d="M28 0H0V28" fill="none" stroke="#C556B8" stroke-width="1.5"/></pattern>
+    <marker id="head" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1 1 L11 6 L1 11 L4 6 Z" fill="#1A1A1A"/></marker>
+    <path id="torn-a" d="M0 0H900V40l-22 6-18-9-26 12-20-4-30 10-24-6-28 13-16-5-34 11-22-3-26 12-30-7-20 9-28-2-24 12-30-8-18 10-32-4-22 11-26-6-30 13-20-5-28 9-24-3-34 12-18-6-26 10-30-4-22 9-28-7-20 11-32-2-24 8-26-5-18 12-30-6-22 4L0 150Z"/>
+    <path id="torn-b" d="M900 150H0v-30l26-8 20 10 30-12 18 6 28-11 22 5 34-12 20 4 26-10 30 7 22-11 28 3 24-12 30 9 18-10 32 5 22-12 26 6 30-13 20 5 28-9 24 3 34-12 18 6 26-10 30 4 22-9 28 7 20-11 32 2 24-8L900 0Z"/>
+    <!-- lightbulb from the template -->
+    <g id="bulb">
+      <path d="M60 4 C 26 4, 6 30, 6 58 C 6 80, 20 92, 28 104 C 32 110, 32 116, 32 120 H 88 C 88 116, 88 110, 92 104 C 100 92, 114 80, 114 58 C 114 30, 94 4, 60 4 Z" fill="#F9C34B"/>
+      <path d="M42 56 L60 74 L78 56 M60 74 V120" fill="none" stroke="#1A1A1A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="28" y="120" width="64" height="12" rx="6" fill="#A3B8FA"/><rect x="28" y="134" width="64" height="12" rx="6" fill="#EC0B9C"/><rect x="28" y="148" width="64" height="12" rx="6" fill="#A3B8FA"/>
+      <path d="M38 162 H 82 C 82 176, 38 176, 38 162 Z" fill="#EC0B9C"/>
+    </g>
+    <path id="star" d="M0 -22 C 3 -6, 6 -3, 22 0 C 6 3, 3 6, 0 22 C -3 6, -6 3, -22 0 C -6 -3, -3 -6, 0 -22 Z" fill="#F9C34B"/>
+  </defs>
+</svg>
+
+<nav class="deck-nav">
+  <a class="logo" href="/">Ripe<span>/</span>or<span>/</span>Not</a>
+  <span class="mono" id="counter">1 / 17</span>
+  <div class="dots" id="dots"></div>
+  <a class="back hand" href="/">← back to the demo</a>
+</nav>
+
+<main class="deck" id="deck">
+
+<!-- 1 · TITLE ======================================================== -->
+<section class="slide s-title">
+  <svg class="torn torn-tl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-peri)"/></svg>
+  <svg class="torn torn-br" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-peri)"/></svg>
+  <div class="title-wrap">
+    <svg class="bulb a-pop" viewBox="-30 -30 180 230"><use href="#bulb"/><use href="#star" transform="translate(-6 20) scale(.8)"/><use href="#star" transform="translate(128 96) scale(.65)"/><use href="#star" transform="translate(-14 130) scale(.6)"/></svg>
+    <div>
+      <svg class="sparks" viewBox="0 0 120 90"><path d="M20 70 L45 52 M52 18 L60 46 M95 10 L80 44" stroke="#EC0B9C" stroke-width="7" stroke-linecap="round"/></svg>
+      <h1 class="a-up">Fruit Ripeness<br>Grading <em>via</em><br>Ordinal Regression</h1>
+      <p class="hand big-hand a-up">strawberries &amp; avocados · unripe → partially ripe → ripe → rotten</p>
+    </div>
+  </div>
+  <svg class="squiggle" viewBox="0 0 300 160"><path class="draw" d="M290 20 C 200 -10, 160 120, 20 100" fill="none" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="11 9" marker-end="url(#head)"/></svg>
+</section>
+
+<!-- 2 · AGENDA ======================================================= -->
+<section class="slide s-agenda">
+  <svg class="torn torn-tr" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-sun)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <svg class="torn torn-bl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-sun)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="agenda">
+    <div class="agenda-tag note-mint a-pop"><span class="pin"></span><h2>Agenda</h2></div>
+    <div class="spiral note-pink a-up">
+      <span class="rings"></span>
+      <ol class="hand">
+        <li>The problem: order matters</li>
+        <li>The data: 758 real photos</li>
+        <li>Keeping the test honest</li>
+        <li>Ordinal regression (CORAL)</li>
+        <li>Models &amp; training recipe</li>
+        <li>Results, errors, Grad-CAM</li>
+        <li>What we learned · syllabus</li>
+      </ol>
+    </div>
+  </div>
+  <svg class="squiggle sq-left" viewBox="0 0 260 320"><path class="draw" d="M30 300 C 0 200, 120 220, 120 120 C 120 60, 180 40, 240 40" fill="none" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="11 9" marker-end="url(#head)"/></svg>
+</section>
+
+<!-- 3 · PROBLEM ====================================================== -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">01 · the problem</span><h2>Ripeness is a <em>ladder</em>, not a list</h2></div>
+  <div class="two">
+    <div class="board a-up">
+      <div class="board-head"><span>Why grade ripeness?</span></div>
+      <ul class="hand bullets">
+        <li>Sorting lines decide <b>sell now, store, or discard</b></li>
+        <li>Humans disagree near the borders between stages</li>
+        <li>A camera + CNN gives a fast, consistent grade</li>
+      </ul>
+    </div>
+    <div class="a-up">
+      <div class="ladder">
+        <div class="rung note-mint"><b>0</b><span>unripe</span></div>
+        <div class="rung note-sun"><b>1</b><span>partially ripe</span></div>
+        <div class="rung note-pink"><b>2</b><span>ripe</span></div>
+        <div class="rung note-lilac"><b>3</b><span>rotten</span></div>
+      </div>
+      <div class="note note-paper cost a-pop">
+        <p class="hand">True grade <b>rotten (3)</b>. Which mistake is worse?</p>
+        <div class="cost-row"><span class="pill">says ripe (2)</span><span class="mono">off by 1</span></div>
+        <div class="cost-row"><span class="pill">says unripe (0)</span><span class="mono">off by 3</span></div>
+        <p class="hand muted">Plain classification charges both the same.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · DATASET ====================================================== -->
+<section class="slide">
+  <svg class="torn torn-tr small" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-pink)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="slide-head"><span class="kicker hand">02 · the data</span><h2>Real photos, two fruits, four stages</h2></div>
+  <div class="grid-figure a-up">
+    <div class="grade-heads hand"><span>unripe</span><span>partially ripe</span><span>ripe</span><span>rotten</span></div>
+    <div class="fruit-labels hand"><span>strawberry</span><span>avocado</span></div>
+    <img src="/results/dataset_grid.png" alt="Four example crops for every fruit and ripeness stage">
+  </div>
+  <div class="facts">
+    <div class="fact note-mint a-pop"><span class="holes"></span><b class="mono">758</b><span>photos with labels</span></div>
+    <div class="fact note-sun a-pop"><span class="holes"></span><b class="mono">924</b><span>fruit crops (some photos hold up to 12 fruits)</span></div>
+    <div class="fact note-lilac a-pop"><span class="holes"></span><b class="mono">8</b><span>classes = 2 fruits × 4 stages</span></div>
+    <div class="fact note-pink a-pop"><span class="holes"></span><b class="mono">CC BY</b><span>Mendeley Data, Kamat et al. 2024</span></div>
+  </div>
+</section>
+
+<!-- 5 · BOXES TO CROPS =============================================== -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">02 · the data</span><h2>From detection boxes to crops</h2></div>
+  <div class="flow3">
+    <div class="paper a-up">
+      <h3>1 · YOLO label</h3>
+      <svg viewBox="0 0 260 190" class="diagram">
+        <rect x="6" y="6" width="248" height="178" rx="8" fill="#FFF8EA" stroke="#1A1A1A" stroke-width="3"/>
+        <ellipse cx="92" cy="104" rx="52" ry="58" fill="#5E7D3A"/><ellipse cx="190" cy="92" rx="38" ry="44" fill="#E64B5A"/>
+        <rect x="34" y="40" width="116" height="130" fill="none" stroke="#EC0B9C" stroke-width="3" stroke-dasharray="7 5"/>
+        <rect x="146" y="42" width="88" height="100" fill="none" stroke="#7B83EB" stroke-width="3" stroke-dasharray="7 5"/>
+        <text x="38" y="34" font-family="JetBrains Mono" font-size="12">5</text><text x="150" y="36" font-family="JetBrains Mono" font-size="12">2</text>
+      </svg>
+      <p class="mono small">class cx cy w h  →  <b>5</b> 0.35 0.55 0.45 0.68</p>
+    </div>
+    <svg class="flow-arrow" viewBox="0 0 80 40"><path class="draw" d="M4 20 H 70" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="9 7" marker-end="url(#head)"/></svg>
+    <div class="paper a-up">
+      <h3>2 · Crop + 8% border</h3>
+      <svg viewBox="0 0 260 190" class="diagram">
+        <rect x="56" y="10" width="140" height="170" rx="6" fill="#FFF8EA" stroke="#1A1A1A" stroke-width="3"/>
+        <ellipse cx="126" cy="98" rx="56" ry="68" fill="#5E7D3A"/>
+        <rect x="70" y="24" width="112" height="142" fill="none" stroke="#EC0B9C" stroke-width="3" stroke-dasharray="7 5"/>
+      </svg>
+      <p class="hand">resized to 224 × 224, ImageNet mean/std</p>
+    </div>
+    <svg class="flow-arrow" viewBox="0 0 80 40"><path class="draw" d="M4 20 H 70" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="9 7" marker-end="url(#head)"/></svg>
+    <div class="paper a-up">
+      <h3>3 · Decode the id</h3>
+      <table class="qtable mono idtable">
+        <thead><tr><th>id</th><th>fruit</th><th>grade</th></tr></thead>
+        <tbody><tr><td>0–3</td><td>strawberry</td><td>id % 4</td></tr><tr><td>4–7</td><td>avocado</td><td>id % 4</td></tr></tbody>
+      </table>
+      <p class="hand">No names file came with the data – we viewed crops of every id to map them.</p>
+    </div>
+  </div>
+  <p class="hand caption">Syllabus Unit IV: bounding-box representation · Unit I: resizing &amp; normalisation</p>
+</section>
+
+<!-- 6 · LEAKAGE (best ideas / wrong ideas board) ======================= -->
+<section class="slide">
+  <svg class="torn torn-br" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-peri)"/></svg>
+  <div class="slide-head"><span class="kicker hand">03 · keeping the test honest</span><h2>Same fruit must never sit in train <em>and</em> test</h2></div>
+  <div class="ideas">
+    <div class="board ideas-wrong a-up">
+      <div class="board-head"><span>Wrong ideas</span></div>
+      <div class="sticky-row">
+        <div class="sticky note-lilac"><span class="holes"></span><p>Hash whole crop 8×8 → chained <b>93 different</b> dark avocados into one group</p></div>
+        <div class="sticky note-pink"><span class="holes"></span><p>Single 70/15/15 split → only <b>2 ripe avocados</b> in test</p></div>
+      </div>
+    </div>
+    <div class="board ideas-best a-up">
+      <div class="board-head"><span>The best ideas</span></div>
+      <div class="sticky-row">
+        <div class="sticky note-mint lined"><span class="holes"></span><p>Group: same photo, burst shots (nearby photo numbers), near-identical crops → <b>159 groups</b></p></div>
+        <div class="sticky note-sun"><span class="holes"></span><p><b>5-fold grouped cross-validation</b>: every crop tested once, by a model that never saw it</p></div>
+      </div>
+      <svg viewBox="0 0 560 120" class="folds">
+        <g font-family="JetBrains Mono" font-size="13">
+          <g class="fold-row"><text x="0" y="20">run 0</text><rect x="70" y="6" width="90" height="20" rx="4" fill="#F07CA0"/><rect x="164" y="6" width="90" height="20" rx="4" fill="#F9C34B"/><rect x="258" y="6" width="90" height="20" rx="4" fill="#C3EBE2"/><rect x="352" y="6" width="90" height="20" rx="4" fill="#C3EBE2"/><rect x="446" y="6" width="90" height="20" rx="4" fill="#C3EBE2"/></g>
+          <g class="fold-row"><text x="0" y="52">run 1</text><rect x="70" y="38" width="90" height="20" rx="4" fill="#C3EBE2"/><rect x="164" y="38" width="90" height="20" rx="4" fill="#F07CA0"/><rect x="258" y="38" width="90" height="20" rx="4" fill="#F9C34B"/><rect x="352" y="38" width="90" height="20" rx="4" fill="#C3EBE2"/><rect x="446" y="38" width="90" height="20" rx="4" fill="#C3EBE2"/></g>
+          <g class="fold-row"><text x="0" y="84">…</text></g>
+          <g transform="translate(70 100)"><rect width="14" height="14" fill="#F07CA0"/><text x="20" y="12">test</text><rect x="80" width="14" height="14" fill="#F9C34B"/><text x="100" y="12">validation</text><rect x="210" width="14" height="14" fill="#C3EBE2"/><text x="230" y="12">train</text></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · SOFTMAX VS ORDINAL ============================================ -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">04 · the method</span><h2>Ask three yes/no questions</h2></div>
+  <div class="two">
+    <div class="paper card-tilt-l a-up">
+      <span class="tape tape-l"></span>
+      <h3>Softmax: 4 unrelated boxes</h3>
+      <div class="boxes"><span>unripe</span><span>partially ripe</span><span>ripe</span><span>rotten</span></div>
+      <p>Cross-entropy only checks “right box or not”.</p>
+    </div>
+    <div class="paper card-tilt-r a-up">
+      <span class="tape tape-r"></span>
+      <h3>Ordinal: cumulative targets</h3>
+      <table class="qtable mono">
+        <thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+        <tbody>
+          <tr><td>grade &gt; 0 ?</td><td>0</td><td class="y">1</td><td class="y">1</td><td class="y">1</td></tr>
+          <tr><td>grade &gt; 1 ?</td><td>0</td><td>0</td><td class="y">1</td><td class="y">1</td></tr>
+          <tr><td>grade &gt; 2 ?</td><td>0</td><td>0</td><td>0</td><td class="y">1</td></tr>
+        </tbody>
+      </table>
+      <p>Predicted grade = number of “yes” answers.<br>Being 3 grades off breaks 3 answers, 1 grade off breaks only 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · CORAL ARCHITECTURE =========================================== -->
+<section class="slide">
+  <svg class="torn torn-bl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-sun)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="slide-head"><span class="kicker hand">04 · the method</span><h2>The CORAL head</h2></div>
+  <svg class="arch a-up" viewBox="0 0 1200 420">
+    <g font-family="Patrick Hand" font-size="22" text-anchor="middle">
+      <!-- image -->
+      <rect x="10" y="130" width="140" height="140" rx="10" fill="#C3EBE2" stroke="#1A1A1A" stroke-width="3"/>
+      <ellipse cx="80" cy="205" rx="40" ry="48" fill="#E64B5A"/><path d="M62 160 q18 -14 36 0" stroke="#3E7B3A" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <text x="80" y="300">224×224 photo</text>
+      <!-- backbone -->
+      <path d="M200 120 L 400 160 L 400 240 L 200 280 Z" fill="#A3B8FA" stroke="#1A1A1A" stroke-width="3"/>
+      <text x="300" y="196" font-size="26" font-family="Fraunces" font-weight="900">ResNet18</text>
+      <text x="300" y="224">ImageNet weights</text>
+      <!-- features -->
+      <g>
+        <rect x="450" y="110" width="34" height="180" rx="6" fill="#FFF8EA" stroke="#1A1A1A" stroke-width="3"/>
+        <g fill="#1A1A1A" opacity=".75"><circle cx="467" cy="130" r="4"/><circle cx="467" cy="150" r="4"/><circle cx="467" cy="170" r="4"/><circle cx="467" cy="230" r="4"/><circle cx="467" cy="250" r="4"/><circle cx="467" cy="270" r="4"/></g>
+        <text x="467" y="205" font-size="16">⋮</text>
+        <text x="467" y="320">512 features</text>
+      </g>
+      <!-- shared score -->
+      <circle cx="600" cy="200" r="48" fill="#F9C34B" stroke="#1A1A1A" stroke-width="3"/>
+      <text x="600" y="198" font-size="30" font-family="Fraunces" font-weight="900">s</text>
+      <text x="600" y="222" font-size="16">= w · x</text>
+      <text x="600" y="276">one shared</text><text x="600" y="298">ripeness score</text>
+      <!-- three thresholds -->
+      <g font-size="20">
+        <rect x="730" y="60" width="150" height="56" rx="12" fill="#F07CA0" stroke="#1A1A1A" stroke-width="3"/><text x="805" y="95">σ(s + b₀)</text>
+        <rect x="730" y="172" width="150" height="56" rx="12" fill="#E7C1E1" stroke="#1A1A1A" stroke-width="3"/><text x="805" y="207">σ(s + b₁)</text>
+        <rect x="730" y="284" width="150" height="56" rx="12" fill="#C3EBE2" stroke="#1A1A1A" stroke-width="3"/><text x="805" y="319">σ(s + b₂)</text>
+        <text x="975" y="95">P(grade &gt; 0)</text><text x="975" y="207">P(grade &gt; 1)</text><text x="975" y="319">P(grade &gt; 2)</text>
+      </g>
+      <!-- answer -->
+      <rect x="1060" y="160" width="130" height="80" rx="14" fill="#1A1A1A"/>
+      <text x="1125" y="196" fill="#FAF6EF" font-size="20">grade =</text><text x="1125" y="222" fill="#FAF6EF" font-size="18">count &gt; 0.5</text>
+      <!-- arrows -->
+      <g fill="none" stroke="#1A1A1A" stroke-width="3" stroke-dasharray="9 7">
+        <path class="draw" d="M155 200 H 192" marker-end="url(#head)"/>
+        <path class="draw" d="M405 200 H 442" marker-end="url(#head)"/>
+        <path class="draw" d="M490 200 H 546" marker-end="url(#head)"/>
+        <path class="draw" d="M648 190 C 690 120, 690 90, 722 88" marker-end="url(#head)"/>
+        <path class="draw" d="M650 200 H 722" marker-end="url(#head)"/>
+        <path class="draw" d="M648 210 C 690 280, 690 310, 722 312" marker-end="url(#head)"/>
+        <path class="draw" d="M1040 100 C 1060 120, 1080 140, 1100 156" marker-end="url(#head)"/>
+        <path class="draw" d="M1042 300 C 1060 280, 1080 262, 1100 246" marker-end="url(#head)"/>
+      </g>
+    </g>
+  </svg>
+  <div class="arch-notes">
+    <div class="note note-sun small-note a-pop"><span class="tape"></span><p class="hand">Shared <b>w</b> → answers can never contradict (“&gt;2” is never likelier than “&gt;1”)</p></div>
+    <div class="note note-pink small-note a-pop"><span class="tape"></span><p class="mono">loss = Σₖ BCE(σ(s+bₖ), [y&gt;k])</p></div>
+    <div class="note note-mint small-note a-pop"><span class="tape"></span><p class="hand">Cao, Mirjalili &amp; Raschka 2020 – “Rank consistent ordinal regression”</p></div>
+  </div>
+</section>
+
+<!-- 9 · MODELS + RECIPE (mind map) ===================================== -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">05 · models &amp; training</span><h2>A fair, controlled comparison</h2></div>
+  <div class="mindmap">
+    <svg class="mm-lines" viewBox="0 0 1000 520" preserveAspectRatio="none">
+      <g fill="none" stroke="#1A1A1A" stroke-width="3" stroke-dasharray="10 8">
+        <path class="draw" d="M420 220 L 300 140" marker-end="url(#head)"/>
+        <path class="draw" d="M400 260 L 300 260" marker-end="url(#head)"/>
+        <path class="draw" d="M420 300 L 300 380" marker-end="url(#head)"/>
+        <path class="draw" d="M580 220 L 700 140" marker-end="url(#head)"/>
+        <path class="draw" d="M600 260 L 700 260" marker-end="url(#head)"/>
+        <path class="draw" d="M580 300 L 700 380" marker-end="url(#head)"/>
+      </g>
+    </svg>
+    <div class="mm-center"><svg viewBox="0 0 120 40" class="mm-spark"><path d="M20 36 L30 6 M60 34 V2 M100 36 L90 6" stroke="#EC0B9C" stroke-width="6" stroke-linecap="round"/></svg><h2>3 models</h2><p class="hand">same folds · same seeds · same schedule</p></div>
+    <div class="mm l1"><div class="pill-h note-mint">Small CNN</div><p>4 × [conv-BN-ReLU ×2, max-pool], dropout 0.3. From scratch, softmax.</p></div>
+    <div class="mm l2"><div class="pill-h note-sun">ResNet18 + softmax</div><p>pretrained backbone, linear → 4 logits, cross-entropy</p></div>
+    <div class="mm l3"><div class="pill-h note-lilac">ResNet18 + ordinal</div><p>same backbone, CORAL head, 3 thresholds at 10× LR</p></div>
+    <div class="mm r1"><div class="pill-h note-lilac">Freeze → unfreeze</div><p>3 epochs head only, then all layers, backbone at 10× lower LR</p></div>
+    <div class="mm r2"><div class="pill-h note-mint">Optimiser</div><p>AdamW 1e-3, cosine schedule, early stop on val MAE, AMP on 4 GB GPU</p></div>
+    <div class="mm r3"><div class="pill-h note-sun">Augmentation</div><p>crop, flips, ±20° rotation, light. <b>Never hue</b> – colour is the label</p></div>
+  </div>
+</section>
+
+<!-- 10 · SANITY CHECKS ================================================ -->
+<section class="slide">
+  <svg class="torn torn-tr small" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-peri)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="slide-head"><span class="kicker hand">05 · models &amp; training</span><h2>Check the plumbing first</h2></div>
+  <div class="two wide-right">
+    <div class="paper a-up">
+      <h3>Loss before any training</h3>
+      <table class="qtable mono">
+        <thead><tr><th>model</th><th>measured</th><th>theory</th></tr></thead>
+        <tbody>
+          <tr><td>CNN</td><td>1.388</td><td>ln 4 = 1.386</td></tr>
+          <tr><td>ResNet + softmax</td><td>1.386</td><td>ln 4 = 1.386</td></tr>
+          <tr><td>ResNet + ordinal</td><td>2.079</td><td>3 ln 2 = 2.079</td></tr>
+        </tbody>
+      </table>
+      <p>A fresh model should be maximally unsure. It is.</p>
+    </div>
+    <div class="paper a-up">
+      <h3>Can it memorise one batch of 32?</h3>
+      <svg class="chart" id="overfitChart" viewBox="0 0 620 300"></svg>
+      <div class="note note-pink bugnote a-pop"><span class="tape"></span><p class="hand"><b>Bug found:</b> thresholds started 0.33 apart and moved ~0.001 per step, so the ordinal loss got stuck at 0.47. Fix: start at [2, 0, −2] with 10× LR.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · RESULTS ====================================================== -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">06 · results</span><h2>What the numbers say</h2><p class="hand muted" id="pResNote"></p></div>
+  <div class="stats" id="pStats"></div>
+  <div class="verdict-strip hand" id="pVerdict"></div>
+</section>
+
+<!-- 12 · ERRORS ======================================================= -->
+<section class="slide">
+  <svg class="torn torn-bl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-pink)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="slide-head"><span class="kicker hand">06 · results</span><h2>How wrong are the wrong answers?</h2></div>
+  <div class="two">
+    <div class="paper a-up"><h3>Distance of each mistake</h3><div class="dist" id="pDist"></div></div>
+    <div class="paper a-up">
+      <h3>Confusion matrices</h3>
+      <div class="cms" id="pCms"></div>
+      <p class="hand muted">rows = true grade · columns = predicted · pink = correct</p>
+    </div>
+  </div>
+</section>
+
+<!-- 13 · CURVES ======================================================= -->
+<section class="slide">
+  <div class="slide-head"><span class="kicker hand">06 · results</span><h2>Training curves (fold 0)</h2></div>
+  <div class="curves">
+    <figure class="polaroid a-up"><img src="/results/curves_cnn.png" alt="CNN training curves"><figcaption class="hand">CNN from scratch – noisy, stops at higher error</figcaption></figure>
+    <figure class="polaroid a-up"><img src="/results/curves_tl_softmax.png" alt="Softmax training curves"><figcaption class="hand">ResNet18 + softmax – dashed line = unfreeze</figcaption></figure>
+    <figure class="polaroid a-up"><img src="/results/curves_tl_ordinal.png" alt="Ordinal training curves"><figcaption class="hand">ResNet18 + ordinal – early stopping keeps the best epoch</figcaption></figure>
+  </div>
+</section>
+
+<!-- 14 · GRAD-CAM ===================================================== -->
+<section class="slide">
+  <svg class="torn torn-br small" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-sun)"/></svg>
+  <div class="slide-head"><span class="kicker hand">06 · interpretability</span><h2>Where does it look? Grad-CAM</h2></div>
+  <div class="paper gc-paper a-up"><img src="/results/gradcam_tl_ordinal.png" alt="Grad-CAM of the ordinal model on test images"></div>
+  <div class="gc-steps">
+    <div class="note note-mint small-note a-pop"><b class="mono">1</b><p class="hand">keep layer4 activations (512 × 7×7)</p></div>
+    <div class="note note-sun small-note a-pop"><b class="mono">2</b><p class="hand">backprop the ripeness score s</p></div>
+    <div class="note note-lilac small-note a-pop"><b class="mono">3</b><p class="hand">weight each map by its mean gradient</p></div>
+    <div class="note note-pink small-note a-pop"><b class="mono">4</b><p class="hand">ReLU + upsample → heatmap</p></div>
+  </div>
+</section>
+
+<!-- 15 · FINDINGS (concept map with bulb) ============================== -->
+<section class="slide">
+  <div class="slide-head center"><span class="kicker hand">07 · what we learned</span><h2>Findings &amp; limits</h2></div>
+  <div class="concept">
+    <svg class="c-bulb a-pop" viewBox="-30 -30 180 230"><use href="#bulb"/><use href="#star" transform="translate(-10 40) scale(.7)"/><use href="#star" transform="translate(130 70) scale(.6)"/></svg>
+    <div class="c-box cl1 note-lilac" id="find1"><h4>Transfer learning wins</h4><p></p></div>
+    <div class="c-box cl2 note-lilac" id="find2"><h4>Ordinal vs softmax</h4><p></p></div>
+    <div class="c-box cl3 note-lilac"><h4>It looks at the fruit</h4><p>for ripe &amp; rotten fruit. For unripe fruit the map drifts to the background – a weakness.</p></div>
+    <div class="c-box cr1 note-mint"><h4>Small data</h4><p>924 crops, 159 groups; one session holds most rotten strawberries</p></div>
+    <div class="c-box cr2 note-mint"><h4>Label noise</h4><p>a flower and an avocado were found inside strawberry classes</p></div>
+    <div class="c-box cr3 note-mint"><h4>Next steps</h4><p>more sessions per class, detector + grader pipeline (YOLO), calibrated thresholds</p></div>
+  </div>
+</section>
+
+<!-- 16 · SYLLABUS ===================================================== -->
+<section class="slide">
+  <svg class="torn torn-tr" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-peri)" transform="scale(-1 1) translate(-900 0)"/></svg>
+  <div class="slide-head"><span class="kicker hand">07 · syllabus map</span><h2>Where CSE471 shows up</h2></div>
+  <div class="units">
+    <div class="unit-note note-pink"><span class="holes"></span><b>Unit I</b><p>image representation, resizing, normalisation, colour, loss functions, optimisation</p></div>
+    <div class="unit-note note-lilac"><span class="holes"></span><b>Unit II</b><p>CNN from scratch, BatchNorm, dropout, augmentation, LR scheduling, early stopping</p></div>
+    <div class="unit-note note-mint lined"><span class="holes"></span><b>Unit III</b><p>transfer learning, ResNet18, freeze → unfreeze, layer-wise learning rates</p></div>
+    <div class="unit-note note-sun"><span class="holes"></span><b>Unit IV</b><p>bounding boxes – YOLO-format labels, boxes used to crop each fruit</p></div>
+    <div class="unit-note note-peri"><span class="holes"></span><b>Unit VI</b><p>interpretability with Grad-CAM, written by hand with PyTorch hooks</p></div>
+    <div class="unit-note note-paper"><span class="holes"></span><b>Beyond</b><p>ordinal regression (CORAL), QWK metric, grouped cross-validation</p></div>
+  </div>
+</section>
+
+<!-- 17 · THANK YOU ==================================================== -->
+<section class="slide s-title">
+  <svg class="torn torn-tl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-pink)"/></svg>
+  <svg class="torn torn-br" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-pink)"/></svg>
+  <div class="thanks">
+    <h1 class="a-up">Thank <em>you</em></h1>
+    <p class="hand big-hand a-up">questions? try the live demo →</p>
+    <a class="cta note-sun a-pop" href="/"><span class="tape"></span>Open the demo</a>
+    <div class="refs mono small a-up">
+      <p>Data: Kamat, Chandekar, Dlima, Gite, Pradhan, Alamri (2024). Ripening Stages of Strawberries and Avocados. Mendeley Data. DOI 10.17632/zysvgmxcyz.1 · CC BY 4.0</p>
+      <p>Method: Cao, Mirjalili, Raschka (2020). Rank consistent ordinal regression for neural networks. Pattern Recognition Letters.</p>
+      <p>Grad-CAM: Selvaraju et al. (2017). ICCV. · ResNet: He et al. (2016). CVPR.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="/static/presentation.js"></script>
+</body>
+</html>

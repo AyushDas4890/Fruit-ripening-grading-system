@@ -1,0 +1,16 @@
+# original dataset (2 GB) – download from Mendeley, see README
+data/raw/
+
+# trained weights (45 x 45 MB) – rebuild with src/run_all.py; the deployed models live on the HF Space
+runs/**/best.pt
+
+# build outputs (regenerate with the deploy/ and webapp/ scripts)
+deploy/onnx/
+deploy/static_space/
+deploy/space/
+webapp/artifact/
+
+# local tooling
+.claude/
+__pycache__/
+*.pyc

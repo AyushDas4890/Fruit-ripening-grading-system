@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-label="Ripe or Not – fruit ripeness grading via ordinal regression">
+  <style>
+    .title { font: 900 104px Georgia, 'Times New Roman', serif; fill: #1A1A1A; letter-spacing: -2px; }
+    .pink { fill: #EC0B9C; }
+    .hand { font: 26px 'Segoe Print', 'Comic Sans MS', 'Bradley Hand', cursive; fill: #4A4642; }
+    .note-t { font: 700 22px 'Segoe Print', 'Comic Sans MS', cursive; fill: #1A1A1A; }
+    .note-n { font: 900 38px Georgia, serif; fill: #1A1A1A; }
+    .drop { animation: drop .8s cubic-bezier(.22,1.4,.36,1) both; transform-box: fill-box; transform-origin: center; }
+    .d1 { animation-delay: .2s } .d2 { animation-delay: .35s } .d3 { animation-delay: .5s } .d4 { animation-delay: .65s }
+    @keyframes drop { from { opacity: 0; transform: translateY(-40px) rotate(-8deg) } to { opacity: 1 } }
+    .dash { stroke-dasharray: 12 10; animation: march 1.2s linear infinite; }
+    @keyframes march { to { stroke-dashoffset: -22 } }
+    .glow { animation: blink 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes blink { 0%,100% { transform: scale(1) } 50% { transform: scale(1.18) } }
+    @media (prefers-reduced-motion: reduce) { .drop, .dash, .glow { animation: none } }
+  </style>
+  <defs>
+    <pattern id="g" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#A3B8FA"/><path d="M28 0H0V28" fill="none" stroke="#7B83EB" stroke-width="1.5"/></pattern>
+    <pattern id="y" width="28" height="28" patternUnits="userSpaceOnUse"><rect width="28" height="28" fill="#FFDA9C"/><path d="M28 0H0V28" fill="none" stroke="#F7A440" stroke-width="1.5"/></pattern>
+    <marker id="h" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto"><path d="M1 1 L11 6 L1 11 L4 6 Z" fill="#1A1A1A"/></marker>
+  </defs>
+  <rect width="1280" height="420" rx="18" fill="#FAF6EF"/>
+  <path fill="url(#g)" d="M18 0H640V30l-22 6-18-9-26 12-20-4-30 10-24-6-28 13-16-5-34 11-22-3-26 12-30-7-20 9-28-2-24 12-30-8-18 10-32-4-22 11-26-6-30 13-20-5-28 9-24-3-34 12-18-6-26 10-30-4L0 110V18Q0 0 18 0Z"/>
+  <path fill="url(#y)" d="M1262 420H700v-20l26-8 20 10 30-12 18 6 28-11 22 5 34-12 20 4 26-10 30 7 22-11 28 3 24-12 30 9 18-10 32 5 22-12 26 6 30-13 20 5 28-9 24 3 34-12 18 6 26-10 30 4L1280 300V402Q1280 420 1262 420Z"/>
+
+  <!-- lightbulb -->
+  <g transform="translate(70 120)">
+    <g class="glow"><path d="M-14 30 L-2 22 M4 0 L6 14 M30 -6 L22 10" stroke="#EC0B9C" stroke-width="6" stroke-linecap="round" fill="none"/></g>
+    <path d="M60 24 C 30 24, 12 46, 12 72 C 12 92, 25 103, 32 114 C 36 120, 36 125, 36 129 H 84 C 84 125, 84 120, 88 114 C 95 103, 108 92, 108 72 C 108 46, 90 24, 60 24 Z" fill="#F9C34B"/>
+    <path d="M44 70 L60 86 L76 70 M60 86 V129" fill="none" stroke="#1A1A1A" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="34" y="129" width="52" height="10" rx="5" fill="#A3B8FA"/><rect x="34" y="141" width="52" height="10" rx="5" fill="#EC0B9C"/><rect x="34" y="153" width="52" height="10" rx="5" fill="#A3B8FA"/>
+    <path d="M42 165 H 78 C 78 177, 42 177, 42 165 Z" fill="#EC0B9C"/>
+  </g>
+
+  <text class="title" x="210" y="200" style="font-size:88px">Ripe <tspan class="pink">or</tspan> Not<tspan class="pink">?</tspan></text>
+  <text class="hand" x="214" y="248" style="font-size:23px">fruit ripeness grading via</text>
+  <text class="hand" x="214" y="280" style="font-size:23px">ordinal regression · CSE471</text>
+  <text class="hand" x="214" y="316" style="font-size:19px">strawberries &amp; avocados · ResNet18 + CORAL</text>
+
+  <!-- the four ordered stages as sticky notes -->
+  <g transform="translate(905 60) scale(.92)">
+    <g class="drop d1" transform="rotate(-6 70 70)"><rect x="0" y="0" width="140" height="120" fill="#C3EBE2"/><text class="note-n" x="16" y="52">0</text><text class="note-t" x="16" y="96">unripe</text></g>
+    <g class="drop d2" transform="translate(150 30) rotate(4 70 70)"><rect x="0" y="0" width="140" height="120" fill="#F9C34B"/><text class="note-n" x="16" y="52">1</text><text class="note-t" x="16" y="96" style="font-size:19px">partially ripe</text></g>
+    <g class="drop d3" transform="translate(20 150) rotate(3 70 70)"><rect x="0" y="0" width="140" height="120" fill="#F07CA0"/><text class="note-n" x="16" y="52">2</text><text class="note-t" x="16" y="96">ripe</text></g>
+    <g class="drop d4" transform="translate(170 175) rotate(-5 70 70)"><rect x="0" y="0" width="140" height="120" fill="#E7C1E1"/><text class="note-n" x="16" y="52">3</text><text class="note-t" x="16" y="96">rotten</text></g>
+  </g>
+  <path class="dash" d="M700 330 C 770 390, 840 320, 895 290" fill="none" stroke="#1A1A1A" stroke-width="3.5" marker-end="url(#h)"/>
+</svg>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ripe or Not – Ordinal Fruit Grading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,700..900,100&family=Gochi+Hand&family=Patrick+Hand&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- shared SVG defs: grid patterns for torn paper strips, marker arrow head -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="grid-peri" width="28" height="28" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="#A3B8FA"/><path d="M28 0H0V28" fill="none" stroke="#7B83EB" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="grid-sun" width="28" height="28" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="#FFDA9C"/><path d="M28 0H0V28" fill="none" stroke="#F7A440" stroke-width="1.5"/>
+    </pattern>
+    <pattern id="grid-pink" width="28" height="28" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="#F07CA0"/><path d="M28 0H0V28" fill="none" stroke="#C556B8" stroke-width="1.5"/>
+    </pattern>
+    <marker id="head" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M1 1 L11 6 L1 11 L4 6 Z" fill="#1A1A1A"/>
+    </marker>
+  </defs>
+</svg>
+
+<!-- ================================================================ HERO + DEMO -->
+<header class="hero" id="top">
+  <svg class="torn torn-tl" viewBox="0 0 900 150" preserveAspectRatio="none"><path fill="url(#grid-peri)" d="M0 0H900V40l-22 6-18-9-26 12-20-4-30 10-24-6-28 13-16-5-34 11-22-3-26 12-30-7-20 9-28-2-24 12-30-8-18 10-32-4-22 11-26-6-30 13-20-5-28 9-24-3-34 12-18-6-26 10-30-4-22 9-28-7-20 11-32-2-24 8-26-5-18 12-30-6-22 4L0 150Z"/></svg>
+  <svg class="torn torn-br" viewBox="0 0 900 150" preserveAspectRatio="none"><path fill="url(#grid-peri)" d="M900 150H0v-30l26-8 20 10 30-12 18 6 28-11 22 5 34-12 20 4 26-10 30 7 22-11 28 3 24-12 30 9 18-10 32 5 22-12 26 6 30-13 20 5 28-9 24 3 34-12 18 6 26-10 30 4 22-9 28 7 20-11 32 2 24-8L900 0Z"/></svg>
+
+  <nav class="nav">
+    <a class="logo" href="#top">Ripe<span>/</span>or<span>/</span>Not</a>
+    <div class="links">
+      <a href="#idea">Idea</a><a href="#pipeline">Pipeline</a><a href="#results">Results</a><a href="#look">Grad-CAM</a><a href="/presentation">Presentation</a>
+    </div>
+  </nav>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <svg class="sparks" viewBox="0 0 120 90" aria-hidden="true"><path d="M20 70 L45 52 M52 18 L60 46 M95 10 L80 44" stroke="#EC0B9C" stroke-width="7" stroke-linecap="round"/></svg>
+      <h1>Ripe<br>or <em>not?</em></h1>
+      <p class="lede">Show it a strawberry or an avocado. It grades ripeness on an ordered scale,
+        <b>unripe → partially ripe → ripe → rotten</b>, and shows where it looked.</p>
+      <p class="byline">Fruit ripeness grading via <u>ordinal regression</u></p>
+      <svg class="hero-arrow" viewBox="0 0 260 120" aria-hidden="true"><path class="draw" d="M8 20 C 80 0, 120 100, 240 80" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-dasharray="10 9" marker-end="url(#head)"/></svg>
+    </div>
+
+    <!-- demo board -->
+    <div class="board" id="demo">
+      <div class="board-head"><span>Try it</span><span class="mono muted" id="status">model ready</span></div>
+      <div class="board-body">
+        <label class="drop note note-mint" id="drop">
+          <input type="file" accept="image/*" id="file" hidden>
+          <span class="holes"></span>
+          <img id="photo" alt="">
+          <span class="drop-text" id="dropText">Drop a fruit photo here<br><small>or click to choose one</small></span>
+        </label>
+        <div class="samples">
+          <span class="hand muted">or pick a test photo the model never trained on</span>
+          <div class="sample-row" id="samples"></div>
+        </div>
+      </div>
+
+      <div class="result" id="result" hidden>
+        <div class="ruler-wrap">
+          <div class="ruler-title hand">ripeness ruler</div>
+          <div class="ruler" id="ruler">
+            <div class="ruler-track"></div>
+            <div class="tick" style="--i:0"><b>0</b><span>unripe</span></div>
+            <div class="tick" style="--i:1"><b>1</b><span>partially ripe</span></div>
+            <div class="tick" style="--i:2"><b>2</b><span>ripe</span></div>
+            <div class="tick" style="--i:3"><b>3</b><span>rotten</span></div>
+            <div class="pointer" id="pointer">
+              <svg viewBox="0 0 40 70"><path d="M20 66 C 6 50, 30 34, 20 6" fill="none" stroke="#EC0B9C" stroke-width="4" stroke-dasharray="7 6"/><path d="M10 16 L20 2 L30 16" fill="none" stroke="#EC0B9C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="mono" id="score">0.00</span>
+            </div>
+          </div>
+          <div class="verdict" id="verdict"></div>
+        </div>
+
+        <div class="questions">
+          <div class="q note note-pink"><span class="holes"></span><p>grade &gt; 0 ?</p><div class="bar"><i></i></div><span class="mono pct"></span></div>
+          <div class="q note note-lilac"><span class="holes"></span><p>grade &gt; 1 ?</p><div class="bar"><i></i></div><span class="mono pct"></span></div>
+          <div class="q note note-mint lined"><span class="holes"></span><p>grade &gt; 2 ?</p><div class="bar"><i></i></div><span class="mono pct"></span></div>
+        </div>
+
+        <div class="looked">
+          <figure class="polaroid"><img id="camImg" alt="Grad-CAM heatmap"><figcaption class="hand">where it looked (Grad-CAM)</figcaption></figure>
+          <div class="compare note note-sun">
+            <span class="tape"></span>
+            <p class="hand">plain softmax model says</p>
+            <p class="big" id="softmaxSays">–</p>
+            <p class="mono small" id="softmaxProbs"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================================================================ IDEA -->
+<section class="sec" id="idea">
+  <div class="sec-title"><h2>Order matters</h2><svg class="underline" viewBox="0 0 300 20"><path class="draw" d="M4 14 C 80 4, 200 22, 296 8" fill="none" stroke="#EC0B9C" stroke-width="5" stroke-linecap="round"/></svg></div>
+
+  <div class="idea-grid">
+    <div class="paper card-tilt-l">
+      <span class="tape tape-l"></span>
+      <h3>Softmax sees 4 unrelated boxes</h3>
+      <div class="boxes"><span>unripe</span><span>partially ripe</span><span>ripe</span><span>rotten</span></div>
+      <p>Calling a <b>rotten</b> fruit <b>unripe</b> costs exactly as much as calling it <b>ripe</b>.
+        The loss has no idea the grades sit on a line.</p>
+    </div>
+    <div class="paper card-tilt-r">
+      <span class="tape tape-r"></span>
+      <h3>Ordinal regression asks 3 yes/no questions</h3>
+      <table class="qtable mono">
+        <thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead>
+        <tbody>
+          <tr><td>grade &gt; 0 ?</td><td>0</td><td class="y">1</td><td class="y">1</td><td class="y">1</td></tr>
+          <tr><td>grade &gt; 1 ?</td><td>0</td><td>0</td><td class="y">1</td><td class="y">1</td></tr>
+          <tr><td>grade &gt; 2 ?</td><td>0</td><td>0</td><td>0</td><td class="y">1</td></tr>
+        </tbody>
+      </table>
+      <p>Grade = number of “yes” answers. All 3 answers share <b>one ripeness score</b>
+        and differ only by a threshold, so they can never contradict each other (CORAL).</p>
+    </div>
+  </div>
+
+  <div class="formula note note-lilac">
+    <span class="holes"></span>
+    <p class="mono">score s = w · features &nbsp;&nbsp;→&nbsp;&nbsp; P(grade &gt; k) = σ(s + b<sub>k</sub>) &nbsp;&nbsp;→&nbsp;&nbsp; loss = Σ<sub>k</sub> BCE</p>
+  </div>
+</section>
+
+<!-- ================================================================ PIPELINE -->
+<section class="sec sec-tinted" id="pipeline">
+  <svg class="torn torn-top" viewBox="0 0 900 80" preserveAspectRatio="none"><path fill="url(#grid-sun)" d="M0 0H900V30l-24 8-20-6-30 10-18-4-28 9-22-5-34 10-20-3-26 8-30-6-22 9-28-2-24 10-30-7-18 8-32-3-22 9-26-5-30 10-20-4-28 8-24-2-34 10-18-5-26 8-30-3-22 7-28-6-20 9-32-2-24 7-26-4-18 9-30-5L0 70Z"/></svg>
+  <div class="sec-title"><h2>From photo to grade</h2></div>
+  <div class="mind" id="mind">
+    <svg class="mind-lines" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+      <path class="draw" d="M285 110 C 310 90, 335 90, 362 110" marker-end="url(#head)"/>
+      <path class="draw" d="M635 110 C 660 90, 685 90, 712 110" marker-end="url(#head)"/>
+      <path class="draw" d="M850 225 C 880 270, 880 300, 850 335" marker-end="url(#head)"/>
+      <path class="draw" d="M712 430 C 685 450, 660 450, 635 430" marker-end="url(#head)"/>
+      <path class="draw" d="M362 430 C 335 450, 310 450, 285 430" marker-end="url(#head)"/>
+    </svg>
+    <div class="node note-mint" style="--x:1%;--y:4%"><h4>758 real photos</h4><p>strawberries + avocados, YOLO boxes, 8 classes → 924 fruit crops</p><span class="unit">Unit I · IV</span></div>
+    <div class="node note-sun" style="--x:37%;--y:4%"><h4>Leak-free folds</h4><p>burst shots &amp; edited copies kept together, 5-fold grouped CV</p><span class="unit">method</span></div>
+    <div class="node note-lilac" style="--x:73%;--y:4%"><h4>Augment</h4><p>crop, flip, rotate, light. <b>never hue</b> – colour is the label</p><span class="unit">Unit II</span></div>
+    <div class="node note-pink" style="--x:73%;--y:62%"><h4>ResNet18</h4><p>ImageNet weights, frozen 3 epochs, then unfrozen with 10× smaller LR</p><span class="unit">Unit III</span></div>
+    <div class="node note-mint" style="--x:37%;--y:62%"><h4>Ordinal head</h4><p>1 shared score + 3 thresholds, BCE loss, rank-consistent</p><span class="unit">beyond syllabus</span></div>
+    <div class="node note-sun" style="--x:1%;--y:62%"><h4>Grade + Grad-CAM</h4><p>count the yes answers, then show the evidence</p><span class="unit">Unit VI</span></div>
+  </div>
+</section>
+
+<!-- ================================================================ RESULTS -->
+<section class="sec" id="results">
+  <div class="sec-title"><h2>What the numbers say</h2><p class="hand muted" id="resultsNote">loading…</p></div>
+  <div class="stats" id="stats"></div>
+  <div class="charts">
+    <div class="paper">
+      <h3>How wrong are the wrong answers?</h3>
+      <div class="dist" id="dist"></div>
+      <p class="hand muted">share of all test predictions that were 1, 2 or 3 grades off</p>
+    </div>
+    <div class="paper">
+      <h3>Confusion matrix <select id="cmPick" class="mono"></select></h3>
+      <div class="cm" id="cm"></div>
+      <p class="hand muted">rows = true grade, columns = predicted. Good models keep mistakes next to the diagonal.</p>
+    </div>
+  </div>
+  <div class="paper fruit-table" id="perFruit"></div>
+</section>
+
+<!-- ================================================================ GRAD-CAM -->
+<section class="sec sec-tinted pinkish" id="look">
+  <svg class="torn torn-top" viewBox="0 0 900 80" preserveAspectRatio="none"><path fill="url(#grid-pink)" d="M0 0H900V30l-24 8-20-6-30 10-18-4-28 9-22-5-34 10-20-3-26 8-30-6-22 9-28-2-24 10-30-7-18 8-32-3-22 9-26-5-30 10-20-4-28 8-24-2-34 10-18-5-26 8-30-3-22 7-28-6-20 9-32-2-24 7-26-4-18 9-30-5L0 70Z"/></svg>
+  <div class="sec-title"><h2>Where does it look?</h2></div>
+  <div class="paper wide">
+    <img src="/results/gradcam_tl_ordinal.png" alt="Grad-CAM for the ordinal model on one test image per fruit and grade" class="gc">
+    <ul class="hand notes-list">
+      <li>Ripe &amp; rotten fruit: the heat sits on dark skin, mould and red flesh – the right evidence.</li>
+      <li>Unripe fruit: almost no “riper” evidence, so the map wanders to the background or a red neighbour.</li>
+      <li>Hardest pair: unripe vs partially ripe avocado – both are green.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================================================================ SYLLABUS -->
+<section class="sec" id="presentation">
+  <a class="pres-link" href="/presentation">
+    <div class="pres-card note note-pink">
+      <span class="tape"></span>
+      <span class="hand kicker-dark">the full story, slide by slide</span>
+      <h2>The presentation</h2>
+      <p class="hand">17 slides: problem, data, leak-free testing, the CORAL head, training, results, Grad-CAM, findings and the syllabus map</p>
+      <span class="go">Open slides →</span>
+    </div>
+    <div class="pres-stack" aria-hidden="true"><span class="note-lilac"></span><span class="note-mint"></span><span class="note-sun"></span></div>
+  </a>
+  <footer class="credits mono small">
+    Data: Kamat, Chandekar, Dlima, Gite, Pradhan, Alamri (2024). Ripening Stages of Strawberries and Avocados. Mendeley Data, DOI 10.17632/zysvgmxcyz.1, CC BY 4.0
+  </footer>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
