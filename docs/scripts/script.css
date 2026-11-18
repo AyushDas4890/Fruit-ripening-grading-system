@@ -1,0 +1,30 @@
+@page { size: A4; margin: 16mm 16mm 18mm; }
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.6pt; line-height: 1.5; color: #1A1A1A; margin: 0; }
+.cover { background: #FAF6EF; border: 2.5px solid #1A1A1A; border-radius: 8px; padding: 22px 26px; margin-bottom: 18px; position: relative; overflow: hidden; }
+.cover:before { content: ""; position: absolute; top: 0; right: 0; width: 46%; height: 26px;
+  background: #A3B8FA repeating-linear-gradient(90deg, transparent 0 13px, rgba(123,131,235,.7) 13px 14px); }
+.cover h1 { font-family: Georgia, serif; font-size: 25pt; margin: 6px 0 4px; letter-spacing: -.5px; }
+.cover h1 em { font-style: normal; color: #EC0B9C; }
+.cover p { margin: 4px 0; color: #4A4642; }
+.meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.chip { font-size: 9pt; padding: 3px 10px; border-radius: 10px; border: 1.5px solid #1A1A1A; }
+.c1 { background: #C3EBE2 } .c2 { background: #F9C34B } .c3 { background: #E7C1E1 } .c4 { background: #F07CA0 }
+h2 { font-family: Georgia, serif; font-size: 14.5pt; margin: 18px 0 6px; padding: 5px 12px; background: #FAF6EF;
+  border-left: 6px solid #EC0B9C; page-break-after: avoid; }
+h2 .time { float: right; font: 600 9.5pt Consolas, monospace; color: #4A4642; padding-top: 4px; }
+.block { page-break-inside: avoid; margin-bottom: 8px; }
+.do { background: #C3EBE2; border-radius: 6px; padding: 6px 10px; margin: 6px 0; font-size: 9.8pt; }
+.do b:first-child { font-family: Consolas, monospace; font-size: 8.8pt; letter-spacing: .5px; margin-right: 6px; }
+.say { border-left: 3px solid #1A1A1A; padding: 2px 0 2px 12px; margin: 6px 0; }
+.say p { margin: 0 0 6px; }
+.tip { background: #FFF4D6; border-radius: 6px; padding: 6px 10px; margin: 6px 0; font-size: 9.6pt; }
+.tip b:first-child { font-family: Consolas, monospace; font-size: 8.8pt; margin-right: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 9.6pt; margin: 6px 0 10px; page-break-inside: avoid; }
+th, td { border: 1px solid #cfc8bd; padding: 4px 7px; text-align: left; vertical-align: top; }
+th { background: #FAF6EF; }
+.qa dt { font-weight: 700; margin-top: 8px; }
+.qa dd { margin: 2px 0 0 0; padding-left: 12px; border-left: 3px solid #F07CA0; }
+.qa dl > div { page-break-inside: avoid; }
+code { font-family: Consolas, monospace; font-size: 9.4pt; background: #F2EEE6; padding: 0 4px; border-radius: 3px; }
+.foot { margin-top: 18px; font-size: 8.8pt; color: #8A847C; border-top: 1px dashed #bbb; padding-top: 6px; }

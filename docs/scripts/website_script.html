@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Reader Script – Website Demo</title>
+<link rel="stylesheet" href="script.css"></head><body>
+
+<div class="cover">
+  <p>CSE471 · Deep Learning for Computer Vision · reader script 1 of 2</p>
+  <h1>Website demo – <em>Ripe or Not</em></h1>
+  <p>A walk through the live web app, top to bottom, with what to click and what to say.</p>
+  <div class="meta">
+    <span class="chip c1">about 8–10 minutes</span>
+    <span class="chip c2">live: huggingface.co/spaces/AD074890/ripe-or-not</span>
+    <span class="chip c3">backup: python webapp/server.py → 127.0.0.1:8000</span>
+  </div>
+</div>
+
+<div class="block">
+<h2>Before you start <span class="time">5 min before</span></h2>
+<div class="do"><b>DO</b> Open the live demo and click one sample photo once, so the ~90 MB model download is done before the audience is watching. The next predictions take under a second.</div>
+<div class="do"><b>DO</b> Keep a second tab with the presentation (<code>presentation.html</code>) and a third with the GitHub repo.</div>
+<div class="tip"><b>IF NO INTERNET</b> Run <code>python webapp/server.py</code> and open <code>http://127.0.0.1:8000</code>. It is the same page, served from your laptop.</div>
+</div>
+
+<div class="block">
+<h2>1 · Opening <span class="time">0:00 – 1:00</span></h2>
+<div class="do"><b>SHOW</b> The top of the page: “Ripe or not?” and the empty “Try it” board.</div>
+<div class="say">
+<p>Good morning. My project is <b>fruit ripeness grading using ordinal regression</b>.</p>
+<p>The question is simple: given a photo of a strawberry or an avocado, how ripe is it? We use four stages: <b>unripe, partially ripe, ripe and rotten</b>.</p>
+<p>The key point of the project is that these four stages are <b>ordered</b>. Rotten comes after ripe, and ripe comes after partially ripe. So the model should be punished more for being three steps wrong than for being one step wrong. That is what ordinal regression does, and I will show it live.</p>
+</div>
+</div>
+
+<div class="block">
+<h2>2 · Live prediction <span class="time">1:00 – 3:30</span></h2>
+<div class="do"><b>CLICK</b> The rotten avocado sample (top row, last photo).</div>
+<div class="say">
+<p>These small photos are from the <b>test set</b>. The model that answers never saw them during training. The label in the corner of the board says which model answered.</p>
+<p>Look at the <b>ripeness ruler</b>. The arrow slides to the model's ripeness score, here about 3, which is <b>rotten</b>, and that matches the true grade.</p>
+</div>
+<div class="do"><b>POINT</b> At the three coloured sticky notes.</div>
+<div class="say">
+<p>This is how the ordinal model thinks. It does not pick one of four boxes. It answers <b>three yes/no questions</b>: is the grade above 0? above 1? above 2? Here all three answers are “yes”, so the grade is 3.</p>
+<p>The grade is simply the <b>number of yes answers</b>. All three questions share one ripeness score, so the answers can never contradict each other.</p>
+</div>
+<div class="do"><b>POINT</b> At the Grad-CAM photo and the yellow note.</div>
+<div class="say">
+<p>On the left is <b>Grad-CAM</b>. It shows which part of the image pushed the model towards “more ripe”. Here it lights up the dark, wrinkled skin, which is exactly the evidence a person would use.</p>
+<p>The yellow note shows a normal <b>softmax classifier</b> trained the same way, for comparison.</p>
+</div>
+<div class="do"><b>CLICK</b> One more sample, for example the green unripe avocado or the pale strawberry. If the model is wrong, say so.</div>
+<div class="say">
+<p>When the model is wrong, the page says <b>how far off</b> it is. Most mistakes are only one grade off, and that is the kind of mistake ordinal regression tries to keep.</p>
+</div>
+<div class="tip"><b>OPTIONAL</b> Drag your own fruit photo onto the green note. Uploaded photos are graded by the same model, running inside the browser.</div>
+</div>
+
+<div class="block">
+<h2>3 · “Order matters” <span class="time">3:30 – 4:30</span></h2>
+<div class="do"><b>SCROLL</b> To “Order matters”.</div>
+<div class="say">
+<p>On the left: softmax sees four <b>unrelated boxes</b>. Calling a rotten fruit unripe costs the same as calling it ripe.</p>
+<p>On the right: the <b>cumulative targets</b>. A ripe fruit, grade 2, is encoded as yes, yes, no. Being three grades off breaks three answers; being one grade off breaks only one. So the loss itself understands distance.</p>
+<p>The formula underneath is the CORAL method: one shared score, three thresholds, and binary cross-entropy summed over the three questions.</p>
+</div>
+</div>
+
+<div class="block">
+<h2>4 · Pipeline <span class="time">4:30 – 6:00</span></h2>
+<div class="do"><b>SCROLL</b> To “From photo to grade”. The dashed arrows draw themselves.</div>
+<div class="say">
+<p><b>Data:</b> 758 real photos from a published dataset, labelled with YOLO bounding boxes. I cropped every box and got 924 single-fruit images. That uses the bounding-box part of Unit IV.</p>
+<p><b>Leak-free folds:</b> the dataset has burst shots and edited copies of the same fruit. If one copy is in training and its twin is in testing, the score is fake. So I grouped them and used <b>5-fold grouped cross-validation</b>. Every image is tested exactly once, by a model that never saw it.</p>
+<p><b>Augmentation:</b> crops, flips, rotation and lighting, but <b>never hue</b>, because colour is the label.</p>
+<p><b>ResNet18</b> pretrained on ImageNet. First the backbone is frozen for 3 epochs, then everything is unfrozen with a 10× smaller learning rate for the backbone. That is Unit III, transfer learning.</p>
+<p>Then the <b>ordinal head</b>, and finally the grade plus Grad-CAM.</p>
+</div>
+</div>
+
+<div class="block">
+<h2>5 · Results <span class="time">6:00 – 8:00</span></h2>
+<div class="do"><b>SCROLL</b> To “What the numbers say”. The numbers count up.</div>
+<div class="say">
+<p>I compared three models under identical conditions: same folds, same seeds, same schedule. Three models, five folds, three seeds: <b>45 training runs</b>.</p>
+<p>The main metric is <b>MAE</b>, the average number of grades the model is off by.</p>
+<p>The small CNN from scratch: <b>0.42</b>. ResNet18 with softmax: <b>0.23</b>. ResNet18 with the ordinal head: <b>0.21</b>.</p>
+<p>So transfer learning roughly <b>halves the error</b>. The ordinal head is ahead of softmax on every metric: accuracy 79.5% vs 79.0%, QWK 0.924 vs 0.910, and severe mistakes, two or more grades off, <b>0.79% vs 1.37%</b>.</p>
+<p>To be honest about it: the gaps are about one standard deviation across seeds. So it is a <b>consistent small edge</b>, not a proven win. The clearest benefit is fewer big mistakes, which is what ordinal regression is designed for.</p>
+</div>
+<div class="do"><b>POINT</b> At “How wrong are the wrong answers?”, then switch the confusion-matrix menu between models.</div>
+<div class="say">
+<p>The bars show how far off the wrong answers are. In the confusion matrix, a good model keeps its mistakes <b>next to the diagonal</b>. The scratch CNN spreads them much further.</p>
+</div>
+</div>
+
+<div class="block">
+<h2>6 · Grad-CAM and close <span class="time">8:00 – 9:30</span></h2>
+<div class="do"><b>SCROLL</b> To “Where does it look?”.</div>
+<div class="say">
+<p>One test photo per fruit and stage. For ripe and rotten fruit, the heat sits on the skin, the mould and the red flesh, which is the right evidence.</p>
+<p>For unripe fruit there is little “riper” evidence, so the map drifts to the background. That is a real weakness, and I report it.</p>
+</div>
+<div class="do"><b>SCROLL</b> To the pink “The presentation” card at the bottom.</div>
+<div class="say">
+<p>The full details are in the presentation, which I will go through next. The code, results and a step-by-step journal of every decision are on GitHub.</p>
+<p>Thank you.</p>
+</div>
+</div>
+
+<div class="block qa">
+<h2>Likely questions <span class="time">Q &amp; A</span></h2>
+<dl>
+<div><dt>Why not just use regression and predict a number?</dt>
+<dd>Plain regression assumes the stages are equally spaced, which they are not. CORAL keeps the order but learns its own thresholds between stages.</dd></div>
+<div><dt>Why is the website fast with no server?</dt>
+<dd>The trained model was converted to ONNX and runs inside the browser with ONNX Runtime Web. Hugging Face only stores the files. I checked that the browser gives the same grade as PyTorch on all 8 sample photos.</dd></div>
+<div><dt>How did you avoid data leakage?</dt>
+<dd>I grouped crops from the same photo, burst shots with nearby photo numbers, and near-duplicate crops by perceptual hash. Then I split by group with StratifiedGroupKFold, so no group appears in two folds.</dd></div>
+<div><dt>Is the ordinal model really better?</dt>
+<dd>It is better on average on every metric and more stable across seeds, but the gap is about one standard deviation. The strongest effect is on severe errors.</dd></div>
+<div><dt>What would you do next?</dt>
+<dd>More photo sessions per class (most rotten strawberries come from one session), a detect-then-grade pipeline with YOLO for photos with many fruits, and calibrated thresholds.</dd></div>
+<div><dt>How is Grad-CAM computed in the browser?</dt>
+<dd>For the ordinal score s = w · GAP(A), the gradient with respect to each map is w/49, so Grad-CAM reduces to ReLU(Σ w·A). It is computed in the forward pass and matches the PyTorch version to within 1e-5.</dd></div>
+</dl>
+</div>
+
+<div class="foot">Ripe or Not · reader script for the website · github.com/AyushDas4890/Fruit-ripening-grading-system</div>
+</body></html>
