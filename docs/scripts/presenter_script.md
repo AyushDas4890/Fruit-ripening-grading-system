@@ -1,5 +1,5 @@
 # Fruit Ripeness Grading via Ordinal Regression
-### Presenter Script — 14 Slides
+### Presenter Script — 13 Slides
 
 ### Slide 1 — Introduction
 
@@ -159,21 +159,7 @@ However, the difference is not statistically conclusive.
 
 ---
 
-### Slide 12 — How Wrong Are the Wrong Answers?
-
-This slide gives us a closer look at the model's mistakes.
-
-On the left, we can see how many predictions are one, two or three grades away from the actual grade.
-
-The CNN makes more large mistakes, while the ordinal model has fewer two-grade and three-grade errors.
-
-On the right, we have confusion matrices.
-
-A good model should have most of its predictions along the diagonal, meaning that it predicts the correct grade. Errors should ideally remain between neighbouring stages.
-
----
-
-### Slide 13 — Findings and Limitations
+### Slide 12 — Findings and Limitations
 
 There are three main findings from this project.
 
@@ -189,7 +175,7 @@ For future improvements, I would collect more diverse images and build an integr
 
 ---
 
-### Slide 14 — Thank You
+### Slide 13 — Thank You
 
 This brings me to the end of my presentation.
 
