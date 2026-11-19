@@ -33,7 +33,7 @@
 
 <nav class="deck-nav">
   <a class="logo" href="/">Ripe<span>/</span>or<span>/</span>Not</a>
-  <span class="mono" id="counter">1 / 17</span>
+  <span class="mono" id="counter">1 / 14</span>
   <div class="dots" id="dots"></div>
   <a class="back hand" href="/">← back to the demo</a>
 </nav>
@@ -69,8 +69,8 @@
         <li>Keeping the test honest</li>
         <li>Ordinal regression (CORAL)</li>
         <li>Models &amp; training recipe</li>
-        <li>Results, errors, Grad-CAM</li>
-        <li>What we learned · syllabus</li>
+        <li>Results &amp; error analysis</li>
+        <li>Findings &amp; limits</li>
       </ol>
     </div>
   </div>
@@ -126,7 +126,7 @@
 <!-- 5 · BOXES TO CROPS =============================================== -->
 <section class="slide">
   <div class="slide-head"><span class="kicker hand">02 · the data</span><h2>From detection boxes to crops</h2></div>
-  <div class="flow3">
+  <div class="flow3 flow2">
     <div class="paper a-up">
       <h3>1 · YOLO label</h3>
       <svg viewBox="0 0 260 190" class="diagram">
@@ -148,17 +148,7 @@
       </svg>
       <p class="hand">resized to 224 × 224, ImageNet mean/std</p>
     </div>
-    <svg class="flow-arrow" viewBox="0 0 80 40"><path class="draw" d="M4 20 H 70" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="9 7" marker-end="url(#head)"/></svg>
-    <div class="paper a-up">
-      <h3>3 · Decode the id</h3>
-      <table class="qtable mono idtable">
-        <thead><tr><th>id</th><th>fruit</th><th>grade</th></tr></thead>
-        <tbody><tr><td>0–3</td><td>strawberry</td><td>id % 4</td></tr><tr><td>4–7</td><td>avocado</td><td>id % 4</td></tr></tbody>
-      </table>
-      <p class="hand">No names file came with the data – we viewed crops of every id to map them.</p>
-    </div>
   </div>
-  <p class="hand caption">Syllabus Unit IV: bounding-box representation · Unit I: resizing &amp; normalisation</p>
 </section>
 
 <!-- 6 · LEAKAGE (best ideas / wrong ideas board) ======================= -->
@@ -343,29 +333,6 @@
   </div>
 </section>
 
-<!-- 13 · CURVES ======================================================= -->
-<section class="slide">
-  <div class="slide-head"><span class="kicker hand">06 · results</span><h2>Training curves (fold 0)</h2></div>
-  <div class="curves">
-    <figure class="polaroid a-up"><img src="/results/curves_cnn.png" alt="CNN training curves"><figcaption class="hand">CNN from scratch – noisy, stops at higher error</figcaption></figure>
-    <figure class="polaroid a-up"><img src="/results/curves_tl_softmax.png" alt="Softmax training curves"><figcaption class="hand">ResNet18 + softmax – dashed line = unfreeze</figcaption></figure>
-    <figure class="polaroid a-up"><img src="/results/curves_tl_ordinal.png" alt="Ordinal training curves"><figcaption class="hand">ResNet18 + ordinal – early stopping keeps the best epoch</figcaption></figure>
-  </div>
-</section>
-
-<!-- 14 · GRAD-CAM ===================================================== -->
-<section class="slide">
-  <svg class="torn torn-br small" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-sun)"/></svg>
-  <div class="slide-head"><span class="kicker hand">06 · interpretability</span><h2>Where does it look? Grad-CAM</h2></div>
-  <div class="paper gc-paper a-up"><img src="/results/gradcam_tl_ordinal.png" alt="Grad-CAM of the ordinal model on test images"></div>
-  <div class="gc-steps">
-    <div class="note note-mint small-note a-pop"><b class="mono">1</b><p class="hand">keep layer4 activations (512 × 7×7)</p></div>
-    <div class="note note-sun small-note a-pop"><b class="mono">2</b><p class="hand">backprop the ripeness score s</p></div>
-    <div class="note note-lilac small-note a-pop"><b class="mono">3</b><p class="hand">weight each map by its mean gradient</p></div>
-    <div class="note note-pink small-note a-pop"><b class="mono">4</b><p class="hand">ReLU + upsample → heatmap</p></div>
-  </div>
-</section>
-
 <!-- 15 · FINDINGS (concept map with bulb) ============================== -->
 <section class="slide">
   <div class="slide-head center"><span class="kicker hand">07 · what we learned</span><h2>Findings &amp; limits</h2></div>
@@ -380,21 +347,7 @@
   </div>
 </section>
 
-<!-- 16 · SYLLABUS ===================================================== -->
-<section class="slide">
-  <svg class="torn torn-tr" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-peri)" transform="scale(-1 1) translate(-900 0)"/></svg>
-  <div class="slide-head"><span class="kicker hand">07 · syllabus map</span><h2>Where CSE471 shows up</h2></div>
-  <div class="units">
-    <div class="unit-note note-pink"><span class="holes"></span><b>Unit I</b><p>image representation, resizing, normalisation, colour, loss functions, optimisation</p></div>
-    <div class="unit-note note-lilac"><span class="holes"></span><b>Unit II</b><p>CNN from scratch, BatchNorm, dropout, augmentation, LR scheduling, early stopping</p></div>
-    <div class="unit-note note-mint lined"><span class="holes"></span><b>Unit III</b><p>transfer learning, ResNet18, freeze → unfreeze, layer-wise learning rates</p></div>
-    <div class="unit-note note-sun"><span class="holes"></span><b>Unit IV</b><p>bounding boxes – YOLO-format labels, boxes used to crop each fruit</p></div>
-    <div class="unit-note note-peri"><span class="holes"></span><b>Unit VI</b><p>interpretability with Grad-CAM, written by hand with PyTorch hooks</p></div>
-    <div class="unit-note note-paper"><span class="holes"></span><b>Beyond</b><p>ordinal regression (CORAL), QWK metric, grouped cross-validation</p></div>
-  </div>
-</section>
-
-<!-- 17 · THANK YOU ==================================================== -->
+<!-- 14 · THANK YOU ==================================================== -->
 <section class="slide s-title">
   <svg class="torn torn-tl" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-a" fill="url(#grid-pink)"/></svg>
   <svg class="torn torn-br" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-pink)"/></svg>

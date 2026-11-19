@@ -42,6 +42,7 @@
 .s-title h1 { font-size: clamp(56px, 7vw, 108px); line-height: .95; }
 .s-title .sparks { position: static; width: 90px; margin-bottom: -8px; }
 .squiggle { position: absolute !important; right: 8%; bottom: 14%; width: 240px; }
+.s-title .squiggle { bottom: 4%; right: 6%; }
 .sq-left { right: auto; left: 4%; bottom: 10%; width: 200px; }
 
 /* 2 · agenda */
@@ -89,6 +90,9 @@
 
 /* 5 · flow */
 .flow3 { display: grid; grid-template-columns: 1fr 64px 1fr 64px 1fr; align-items: center; gap: 8px; }
+.flow3.flow2 { grid-template-columns: 1fr 64px 1fr; max-width: 980px; width: 100%; align-self: center; margin-top: 24px; }
+/* ?slide=N&clean : no navigation bar (used to export slides to PowerPoint) */
+.clean .deck-nav { display: none; }
 .flow-arrow { width: 64px; }
 .flow-arrow path { fill: none; }
 .diagram { width: 100%; max-height: 220px; }

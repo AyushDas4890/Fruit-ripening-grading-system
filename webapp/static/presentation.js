@@ -179,6 +179,7 @@ function results(R) {
   slides.forEach((s) => io.observe(s));
 })();
 if (startSlide) {
+  if (new URLSearchParams(location.search).has("clean")) document.body.classList.add("clean");
   deck.style.scrollBehavior = "auto";
   deck.scrollTop = slides[Math.min(startSlide, slides.length) - 1].offsetTop;
 }

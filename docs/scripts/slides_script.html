@@ -4,10 +4,10 @@
 
 <div class="cover">
   <p>CSE471 · Deep Learning for Computer Vision · reader script 2 of 2</p>
-  <h1>Slide presentation – <em>17 slides</em></h1>
+  <h1>Slide presentation – <em>14 slides</em></h1>
   <p>What to say on every slide of the deck. Move with ← → or the space bar.</p>
   <div class="meta">
-    <span class="chip c1">about 12–15 minutes</span>
+    <span class="chip c1">about 11–13 minutes</span>
     <span class="chip c2">ad074890-ripe-or-not.static.hf.space/presentation.html</span>
     <span class="chip c3">local: 127.0.0.1:8000/presentation</span>
   </div>
@@ -16,17 +16,17 @@
 <table>
 <tr><th>Part</th><th>Slides</th><th>Time</th></tr>
 <tr><td>Introduction</td><td>1–3</td><td>2 min</td></tr>
-<tr><td>Data and honest testing</td><td>4–6</td><td>3 min</td></tr>
+<tr><td>Data and honest testing</td><td>4–6</td><td>2.5 min</td></tr>
 <tr><td>Method and training</td><td>7–10</td><td>4 min</td></tr>
-<tr><td>Results and interpretability</td><td>11–14</td><td>3.5 min</td></tr>
-<tr><td>Findings, syllabus, close</td><td>15–17</td><td>2 min</td></tr>
+<tr><td>Results and error analysis</td><td>11–12</td><td>2 min</td></tr>
+<tr><td>Findings and close</td><td>13–14</td><td>1.5 min</td></tr>
 </table>
 
 <div class="block"><h2>Slide 1 · Title <span class="time">0:30</span></h2>
 <div class="say"><p>Good morning. My project is <b>Fruit Ripeness Grading via Ordinal Regression</b>. I grade strawberries and avocados on four stages: unripe, partially ripe, ripe and rotten, using deep learning, and I use the fact that these stages are in order.</p></div></div>
 
 <div class="block"><h2>Slide 2 · Agenda <span class="time">0:20</span></h2>
-<div class="say"><p>I will cover the problem, the data, how I kept the test honest, the ordinal regression method, the models and training, the results with Grad-CAM, and finally what I learned and how it maps to our syllabus.</p></div></div>
+<div class="say"><p>I will cover the problem, the data, how I kept the test honest, the ordinal regression method, the models and training, the results and error analysis, and finally my findings and limits.</p></div></div>
 
 <div class="block"><h2>Slide 3 · Ripeness is a ladder, not a list <span class="time">1:00</span></h2>
 <div class="say">
@@ -41,11 +41,10 @@
 <p>There are <b>758 labelled photos</b>, giving <b>924 fruit crops</b>, because some photos hold up to 12 fruits. There are <b>8 classes</b>: 2 fruits times 4 stages.</p>
 </div></div>
 
-<div class="block"><h2>Slide 5 · From detection boxes to crops <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 5 · From detection boxes to crops <span class="time">0:40</span></h2>
 <div class="say">
 <p>The labels are in <b>YOLO format</b>: a class number and a bounding box, centre x, centre y, width and height, all relative to the image. That is the bounding-box representation from Unit IV.</p>
 <p>I crop each box with an 8% border, resize to 224 by 224, and normalise with ImageNet statistics.</p>
-<p>The dataset came <b>without a names file</b>, so I looked at crops of every class id to decode them. Ids 0 to 3 are strawberry and 4 to 7 avocado, so fruit is id divided by 4 and grade is id modulo 4.</p>
 </div></div>
 
 <div class="block"><h2>Slide 6 · Same fruit must never sit in train and test <span class="time">1:00</span></h2>
@@ -96,25 +95,13 @@
 <p>In the confusion matrices, a good model keeps its errors next to the diagonal, between neighbouring stages. That is exactly where the ResNet models make theirs.</p>
 </div></div>
 
-<div class="block"><h2>Slide 13 · Training curves <span class="time">0:30</span></h2>
-<div class="say"><p>Training curves for fold 0. The CNN from scratch is noisy and stops at a higher error. For the ResNet models, the dashed line marks the unfreeze point, and early stopping keeps the best epoch.</p></div></div>
-
-<div class="block"><h2>Slide 14 · Grad-CAM <span class="time">1:00</span></h2>
-<div class="say">
-<p>This is <b>Grad-CAM</b>, Unit VI, which I wrote by hand with PyTorch hooks, in four steps: keep the activations of the last block, 512 maps of 7 by 7; backpropagate the ripeness score; weight each map by its average gradient; then apply ReLU and upsample to get the heatmap.</p>
-<p>For ripe and rotten fruit, the heat sits on the skin, the mould and the red flesh. For unripe fruit, the map drifts to the background, because there is little evidence for “riper”. That is a weakness I want to show honestly.</p>
-</div></div>
-
-<div class="block"><h2>Slide 15 · Findings &amp; limits <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 13 · Findings &amp; limits <span class="time">1:00</span></h2>
 <div class="say">
 <p>Three findings: transfer learning wins clearly; the ordinal head gives a small but consistent edge, mostly on big mistakes; and the model looks at the fruit for ripe and rotten cases.</p>
 <p>Three limits: the data is small, and most rotten strawberries come from one photo session; there is some label noise, I found a flower and an avocado inside strawberry classes; and next steps are more sessions per class, a YOLO detect-then-grade pipeline, and calibrated thresholds.</p>
 </div></div>
 
-<div class="block"><h2>Slide 16 · Syllabus map <span class="time">0:30</span></h2>
-<div class="say"><p>This maps the project to our syllabus: Unit I for preprocessing and loss functions, Unit II for CNNs and training techniques, Unit III for transfer learning, Unit IV for bounding boxes, and Unit VI for Grad-CAM. Beyond the syllabus: ordinal regression, the QWK metric and grouped cross-validation.</p></div></div>
-
-<div class="block"><h2>Slide 17 · Thank you <span class="time">0:15</span></h2>
+<div class="block"><h2>Slide 14 · Thank you <span class="time">0:15</span></h2>
 <div class="say"><p>Thank you. The live demo runs in the browser, so you can try it on your own fruit photos. The code and the full process journal are on GitHub. I am happy to take questions.</p></div></div>
 
 <div class="block qa">
