@@ -33,7 +33,7 @@
 
 <nav class="deck-nav">
   <a class="logo" href="/">Ripe<span>/</span>or<span>/</span>Not</a>
-  <span class="mono" id="counter">1 / 13</span>
+  <span class="mono" id="counter">1 / 14</span>
   <div class="dots" id="dots"></div>
   <a class="back hand" href="/">← back to the demo</a>
 </nav>
@@ -77,7 +77,32 @@
   <svg class="squiggle sq-left" viewBox="0 0 260 320"><path class="draw" d="M30 300 C 0 200, 120 220, 120 120 C 120 60, 180 40, 240 40" fill="none" stroke="#1A1A1A" stroke-width="3.5" stroke-dasharray="11 9" marker-end="url(#head)"/></svg>
 </section>
 
-<!-- 3 · PROBLEM ====================================================== -->
+<!-- 3 · OBJECTIVE ==================================================== -->
+<section class="slide">
+  <svg class="torn torn-br small" viewBox="0 0 900 150" preserveAspectRatio="none"><use href="#torn-b" fill="url(#grid-peri)"/></svg>
+  <div class="slide-head"><span class="kicker hand">the objective</span><h2>What this project sets out to <em>do</em></h2></div>
+  <div class="objective">
+    <div class="board goal a-up">
+      <div class="board-head"><span>Aim</span></div>
+      <p class="hand">Grade a strawberry or avocado photo on an <b>ordered</b> ripeness scale, <span class="mono">0 unripe → 1 partially ripe → 2 ripe → 3 rotten</span>, using a model that respects that order.</p>
+      <svg class="goal-ladder" viewBox="0 0 320 90" aria-hidden="true">
+        <rect x="0" y="62" width="70" height="22" rx="4" fill="#C3EBE2" stroke="#1A1A1A" stroke-width="2.5"/>
+        <rect x="82" y="44" width="70" height="40" rx="4" fill="#F9C34B" stroke="#1A1A1A" stroke-width="2.5"/>
+        <rect x="164" y="24" width="70" height="60" rx="4" fill="#F07CA0" stroke="#1A1A1A" stroke-width="2.5"/>
+        <rect x="246" y="4" width="70" height="80" rx="4" fill="#E7C1E1" stroke="#1A1A1A" stroke-width="2.5"/>
+        <g font-family="Fraunces, Georgia, serif" font-weight="900" font-size="18"><text x="8" y="80">0</text><text x="90" y="64">1</text><text x="172" y="44">2</text><text x="254" y="24">3</text></g>
+      </svg>
+    </div>
+    <div class="obj-notes">
+      <div class="obj note-mint a-pop"><span class="holes"></span><b class="mono">1</b><h4>Build the data</h4><p>turn 758 real photos with YOLO boxes into 924 fruit crops, split without leakage</p></div>
+      <div class="obj note-sun a-pop"><span class="holes"></span><b class="mono">2</b><h4>Use the order</h4><p>add an ordinal (CORAL) head to ResNet18 instead of a plain softmax</p></div>
+      <div class="obj note-pink a-pop"><span class="holes"></span><b class="mono">3</b><h4>Compare fairly</h4><p>CNN from scratch vs softmax vs ordinal, same folds and seeds, MAE · QWK · severe errors</p></div>
+      <div class="obj note-lilac a-pop"><span class="holes"></span><b class="mono">4</b><h4>Explain &amp; share</h4><p>Grad-CAM to show where it looks, and a live demo that runs in the browser</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · PROBLEM ====================================================== -->
 <section class="slide">
   <div class="slide-head"><span class="kicker hand">01 · the problem</span><h2>Ripeness is a <em>ladder</em>, not a list</h2></div>
   <div class="two">

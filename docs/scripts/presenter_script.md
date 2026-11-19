@@ -1,5 +1,5 @@
 # Fruit Ripeness Grading via Ordinal Regression
-### Presenter Script — 13 Slides
+### Presenter Script — 14 Slides
 
 ### Slide 1 — Introduction
 
@@ -23,7 +23,23 @@ After that, I'll explain ordinal regression, the CORAL architecture, model train
 
 ---
 
-### Slide 3 — Ripeness Is a Ladder, Not a List
+### Slide 3 — Objective
+
+The objective of this project is to grade a photo of a strawberry or an avocado on an ordered ripeness scale, from unripe to rotten, using a model that respects that order.
+
+To reach this, I set four goals.
+
+First, build the data: turn 758 real photographs with YOLO bounding boxes into 924 fruit crops, and split them without data leakage.
+
+Second, use the order: add an ordinal regression head, called CORAL, to a pretrained ResNet18 instead of a plain Softmax classifier.
+
+Third, compare fairly: train a CNN from scratch, ResNet18 with Softmax, and ResNet18 with ordinal regression under the same folds and seeds, and measure MAE, QWK and severe errors.
+
+Fourth, explain and share: use Grad-CAM to show where the model looks, and provide a live demo that runs in the browser.
+
+---
+
+### Slide 4 — Ripeness Is a Ladder, Not a List
 
 Why do we need fruit ripeness grading?
 
@@ -37,7 +53,7 @@ These mistakes are not equally serious. Normal classification treats them as inc
 
 ---
 
-### Slide 4 — Real Photos, Two Fruits, Four Stages
+### Slide 5 — Real Photos, Two Fruits, Four Stages
 
 For this project, I used a publicly available dataset from Mendeley Data, published by Kamat and colleagues in 2024.
 
@@ -51,7 +67,7 @@ So, we have eight classes in total: two fruit types multiplied by four ripeness 
 
 ---
 
-### Slide 5 — From Detection Boxes to Crops
+### Slide 6 — From Detection Boxes to Crops
 
 The original dataset provides annotations in YOLO format.
 
@@ -65,7 +81,7 @@ Finally, the crops are resized to 224 by 224 pixels and normalized using ImageNe
 
 ---
 
-### Slide 6 — Same Fruit Must Never Sit in Train and Test
+### Slide 7 — Same Fruit Must Never Sit in Train and Test
 
 This slide explains how I prevented data leakage.
 
@@ -79,7 +95,7 @@ This creates 159 groups, which are divided using five-fold grouped cross-validat
 
 ---
 
-### Slide 7 — Ask Three Yes/No Questions
+### Slide 8 — Ask Three Yes/No Questions
 
 Now we come to the main idea of ordinal regression.
 
@@ -95,7 +111,7 @@ This makes larger grading mistakes affect more answers than smaller mistakes.
 
 ---
 
-### Slide 8 — The CORAL Head
+### Slide 9 — The CORAL Head
 
 This slide shows how our ordinal model works internally.
 
@@ -111,7 +127,7 @@ Because we share the weight vector, the answers remain consistent and cannot con
 
 ---
 
-### Slide 9 — A Fair, Controlled Comparison
+### Slide 10 — A Fair, Controlled Comparison
 
 I trained three different models.
 
@@ -129,7 +145,7 @@ I also used data augmentation but avoided hue changes because colour is importan
 
 ---
 
-### Slide 10 — Check the Plumbing First
+### Slide 11 — Check the Plumbing First
 
 Before starting full training, I performed sanity checks to make sure the models were working correctly.
 
@@ -143,7 +159,7 @@ I fixed this by initializing them at 2, 0 and minus 2 and increasing their learn
 
 ---
 
-### Slide 11 — What the Numbers Say
+### Slide 12 — What the Numbers Say
 
 Here are the final results from all 45 training runs.
 
@@ -159,7 +175,7 @@ However, the difference is not statistically conclusive.
 
 ---
 
-### Slide 12 — Findings and Limitations
+### Slide 13 — Findings and Limitations
 
 There are three main findings from this project.
 
@@ -175,7 +191,7 @@ For future improvements, I would collect more diverse images and build an integr
 
 ---
 
-### Slide 13 — Thank You
+### Slide 14 — Thank You
 
 This brings me to the end of my presentation.
 

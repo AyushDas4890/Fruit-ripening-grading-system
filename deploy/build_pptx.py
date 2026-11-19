@@ -1,6 +1,6 @@
-"""Build the PowerPoint version of the presentation (13 slides).
+"""Build the PowerPoint version of the presentation (14 slides).
 
-    python deploy/build_pptx.py <folder with hd1.png ... hd13.png>
+    python deploy/build_pptx.py <folder with hd1.png ... hd14.png>
 
 Each slide is a full-bleed 2880x1620 capture of the web presentation (?slide=N&clean),
 so the deck keeps the notebook template exactly. Speaker notes come from
@@ -15,15 +15,15 @@ from pptx import Presentation
 from pptx.util import Emu
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-N = 13
+N = 14
 shots = sys.argv[1]
 md = open(os.path.join(ROOT, "docs", "scripts", "presenter_script.md"), encoding="utf-8").read()
 
 notes = {}
 for num, body in re.findall(r"^### Slide (\d+) — .*?\n(.*?)(?=^---|^### Slide|\Z)", md, flags=re.S | re.M):
     notes[int(num)] = "\n\n".join(p.strip() for p in body.strip().split("\n\n") if p.strip())
-WEB = list(range(1, 14))   # web slide shown on each PowerPoint slide (the decks now match 1:1)
-TITLES = ["Introduction", "Agenda", "Ripeness is a ladder, not a list", "Real photos, two fruits, four stages",
+WEB = list(range(1, N + 1))   # web slide shown on each PowerPoint slide (the decks match 1:1)
+TITLES = ["Introduction", "Agenda", "Objective", "Ripeness is a ladder, not a list", "Real photos, two fruits, four stages",
           "From detection boxes to crops", "Same fruit must never sit in train and test",
           "Ask three yes/no questions", "The CORAL head", "A fair, controlled comparison",
           "Check the plumbing first", "What the numbers say", "Findings & limits", "Thank you"]

@@ -4,10 +4,10 @@
 
 <div class="cover">
   <p>CSE471 · Deep Learning for Computer Vision · reader script 2 of 2</p>
-  <h1>Slide presentation – <em>13 slides</em></h1>
+  <h1>Slide presentation – <em>14 slides</em></h1>
   <p>What to say on every slide of the deck. Move with ← → or the space bar.</p>
   <div class="meta">
-    <span class="chip c1">about 10–12 minutes</span>
+    <span class="chip c1">about 11–13 minutes</span>
     <span class="chip c2">ad074890-ripe-or-not.static.hf.space/presentation.html</span>
     <span class="chip c3">local: 127.0.0.1:8000/presentation</span>
   </div>
@@ -15,11 +15,11 @@
 
 <table>
 <tr><th>Part</th><th>Slides</th><th>Time</th></tr>
-<tr><td>Introduction</td><td>1–3</td><td>2 min</td></tr>
-<tr><td>Data and honest testing</td><td>4–6</td><td>2.5 min</td></tr>
-<tr><td>Method and training</td><td>7–10</td><td>4 min</td></tr>
-<tr><td>Results</td><td>11</td><td>1.5 min</td></tr>
-<tr><td>Findings and close</td><td>12–13</td><td>1.5 min</td></tr>
+<tr><td>Introduction &amp; objective</td><td>1–4</td><td>2.5 min</td></tr>
+<tr><td>Data and honest testing</td><td>5–7</td><td>2.5 min</td></tr>
+<tr><td>Method and training</td><td>8–11</td><td>4 min</td></tr>
+<tr><td>Results</td><td>12</td><td>1.5 min</td></tr>
+<tr><td>Findings and close</td><td>13–14</td><td>1.5 min</td></tr>
 </table>
 
 <div class="block"><h2>Slide 1 · Title <span class="time">0:30</span></h2>
@@ -28,74 +28,78 @@
 <div class="block"><h2>Slide 2 · Agenda <span class="time">0:20</span></h2>
 <div class="say"><p>I will cover the problem, the data, how I kept the test honest, the ordinal regression method, the models and training, the results and error analysis, and finally my findings and limits.</p></div></div>
 
-<div class="block"><h2>Slide 3 · Ripeness is a ladder, not a list <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 3 · Objective <span class="time">0:45</span></h2>
+<div class="say"><p>The objective is to grade a strawberry or avocado photo on an <b>ordered</b> ripeness scale, from unripe to rotten, with a model that respects that order.</p>
+<p>I set four goals: <b>build the data</b> from 758 photos into 924 leak-free crops; <b>use the order</b> with a CORAL ordinal head on ResNet18; <b>compare fairly</b> against softmax and a CNN from scratch with the same folds and seeds; and <b>explain and share</b> the model with Grad-CAM and a live browser demo.</p></div></div>
+
+<div class="block"><h2>Slide 4 · Ripeness is a ladder, not a list <span class="time">1:00</span></h2>
 <div class="say">
 <p>Why grade ripeness? Sorting lines decide whether fruit is sold now, stored or thrown away. People disagree near the borders between stages, and a camera with a CNN gives a fast and consistent grade.</p>
 <p>The ladder on the right is the key idea: the stages are <b>ordered</b>. Look at the example. The true grade is rotten. If the model says ripe, it is one step off. If it says unripe, it is three steps off. Those mistakes are clearly not equally bad, but normal classification charges both the same.</p>
 </div></div>
 
-<div class="block"><h2>Slide 4 · The data <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 5 · The data <span class="time">1:00</span></h2>
 <div class="say">
 <p>The data is a published dataset from Mendeley Data, Kamat and colleagues, 2024, with real photos taken on farms and in markets in Maharashtra. It has a CC BY licence.</p>
 <p>The grid shows real examples: strawberries on top, avocados below, from unripe on the left to rotten on the right.</p>
 <p>There are <b>758 labelled photos</b>, giving <b>924 fruit crops</b>, because some photos hold up to 12 fruits. There are <b>8 classes</b>: 2 fruits times 4 stages.</p>
 </div></div>
 
-<div class="block"><h2>Slide 5 · From detection boxes to crops <span class="time">0:40</span></h2>
+<div class="block"><h2>Slide 6 · From detection boxes to crops <span class="time">0:40</span></h2>
 <div class="say">
 <p>The labels are in <b>YOLO format</b>: a class number and a bounding box, centre x, centre y, width and height, all relative to the image. That is the bounding-box representation from Unit IV.</p>
 <p>I crop each box with an 8% border, resize to 224 by 224, and normalise with ImageNet statistics.</p>
 </div></div>
 
-<div class="block"><h2>Slide 6 · Same fruit must never sit in train and test <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 7 · Same fruit must never sit in train and test <span class="time">1:00</span></h2>
 <div class="say">
 <p>This slide is about <b>data leakage</b>. The dataset has burst shots and edited copies of the same fruit on different backgrounds. If one copy is used for training and its twin for testing, the test score is inflated.</p>
 <p>On the left are two ideas that failed. A coarse image hash merged 93 different avocados into one group. A single 70/15/15 split left only 2 ripe avocados in the test set.</p>
 <p>On the right is what worked. I group crops from the same photo, burst shots with nearby photo numbers, and near-identical crops, which gives 159 groups. Then I use <b>5-fold grouped cross-validation</b>: in each run one fold is test, one is validation for early stopping, and three are training. Every crop is tested exactly once.</p>
 </div></div>
 
-<div class="block"><h2>Slide 7 · Ask three yes/no questions <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 8 · Ask three yes/no questions <span class="time">1:00</span></h2>
 <div class="say">
 <p>Softmax treats the four stages as unrelated boxes, and cross-entropy only checks right box or wrong box.</p>
 <p>Ordinal regression uses <b>cumulative targets</b>. Instead of one four-way choice, the model answers three questions: is the grade greater than 0, greater than 1, greater than 2? A ripe fruit, grade 2, is yes, yes, no.</p>
 <p>The predicted grade is the number of yes answers. Being three grades off breaks three answers; being one grade off breaks only one. So distance is built into the loss.</p>
 </div></div>
 
-<div class="block"><h2>Slide 8 · The CORAL head <span class="time">1:15</span></h2>
+<div class="block"><h2>Slide 9 · The CORAL head <span class="time">1:15</span></h2>
 <div class="say">
 <p>Here is the architecture. A 224 by 224 photo goes into <b>ResNet18</b> pretrained on ImageNet, which gives 512 features.</p>
 <p>The CORAL head has <b>one shared weight vector</b>, which turns the features into a single ripeness score <i>s</i>. Then three separate biases give three probabilities: sigmoid of s plus b0, s plus b1, s plus b2. These are the probabilities that the grade is above 0, above 1 and above 2.</p>
 <p>Because the weight vector is shared, the answers can never contradict each other. The loss is binary cross-entropy summed over the three questions. This is the method of Cao, Mirjalili and Raschka, 2020.</p>
 </div></div>
 
-<div class="block"><h2>Slide 9 · A fair, controlled comparison <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 10 · A fair, controlled comparison <span class="time">1:00</span></h2>
 <div class="say">
 <p>I trained three models. A <b>small CNN from scratch</b> as a baseline, with conv, batch norm, ReLU, max-pool and dropout, from Unit II. <b>ResNet18 with softmax</b>. And <b>ResNet18 with the ordinal head</b>.</p>
 <p>Everything else is identical: same folds, same seeds, same schedule. The transfer models are trained in two phases: 3 epochs with the backbone frozen, then everything unfrozen with a 10 times smaller learning rate for the backbone, which is layer-wise learning rates from Unit III.</p>
 <p>The optimiser is AdamW with a cosine schedule and early stopping on validation MAE. Augmentation uses crops, flips, rotation and lighting, but <b>never hue</b>, because colour is the label.</p>
 </div></div>
 
-<div class="block"><h2>Slide 10 · Check the plumbing first <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 11 · Check the plumbing first <span class="time">1:00</span></h2>
 <div class="say">
 <p>Before training I ran sanity checks, following Andrej Karpathy's recipe for training neural networks.</p>
 <p>First, the loss before any training should match a model that knows nothing: ln 4, 1.386, for softmax and 3 ln 2, 2.079, for ordinal. The measured values match.</p>
 <p>Second, can each model memorise a single batch of 32 images? If not, there is a bug. The CNN and softmax models reach almost zero. The first ordinal model got <b>stuck at 0.47</b>. The thresholds started only 0.33 apart and Adam moves them very slowly, so they could not spread out. I fixed it by starting them at 2, 0 and minus 2 with a 10 times higher learning rate.</p>
 </div></div>
 
-<div class="block"><h2>Slide 11 · What the numbers say <span class="time">1:15</span></h2>
+<div class="block"><h2>Slide 12 · What the numbers say <span class="time">1:15</span></h2>
 <div class="say">
 <p>These are results from all <b>45 runs</b>: 3 models, 5 folds, 3 seeds. Each of the 924 crops is tested once, by a model that never saw it.</p>
 <p>The main metric is <b>MAE</b>, the average number of grades off. The small CNN: <b>0.42</b>. ResNet18 with softmax: <b>0.23</b>. ResNet18 with ordinal: <b>0.21</b>.</p>
 <p>Transfer learning roughly halves the error. The ordinal model is ahead on every metric: accuracy 79.5% against 79.0%, QWK 0.924 against 0.910, and two-or-more-grade errors 0.79% against 1.37%. The gaps are about one standard deviation, so I describe it as a <b>consistent small edge</b>, not a proven win.</p>
 </div></div>
 
-<div class="block"><h2>Slide 12 · Findings &amp; limits <span class="time">1:00</span></h2>
+<div class="block"><h2>Slide 13 · Findings &amp; limits <span class="time">1:00</span></h2>
 <div class="say">
 <p>Three findings: transfer learning wins clearly; the ordinal head gives a small but consistent edge, mostly on big mistakes; and the model looks at the fruit for ripe and rotten cases.</p>
 <p>Three limits: the data is small, and most rotten strawberries come from one photo session; there is some label noise, I found a flower and an avocado inside strawberry classes; and next steps are more sessions per class, a YOLO detect-then-grade pipeline, and calibrated thresholds.</p>
 </div></div>
 
-<div class="block"><h2>Slide 13 · Thank you <span class="time">0:15</span></h2>
+<div class="block"><h2>Slide 14 · Thank you <span class="time">0:15</span></h2>
 <div class="say"><p>Thank you. The live demo runs in the browser, so you can try it on your own fruit photos. The code and the full process journal are on GitHub. I am happy to take questions.</p></div></div>
 
 <div class="block qa">

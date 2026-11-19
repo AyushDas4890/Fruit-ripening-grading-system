@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://huggingface.co/spaces/AD074890/ripe-or-not"><img alt="Live demo" src="https://img.shields.io/badge/live%20demo-try%20it%20now-EC0B9C?style=for-the-badge&logo=huggingface&logoColor=white"></a>
-  <a href="https://ad074890-ripe-or-not.static.hf.space/presentation.html"><img alt="Slides" src="https://img.shields.io/badge/slides-13%20slide%20deck-F9C34B?style=for-the-badge&logoColor=black"></a>
+  <a href="https://ad074890-ripe-or-not.static.hf.space/presentation.html"><img alt="Slides" src="https://img.shields.io/badge/slides-14%20slide%20deck-F9C34B?style=for-the-badge&logoColor=black"></a>
   <a href="docs/01_journal.md"><img alt="Process journal" src="https://img.shields.io/badge/process-journal-A3B8FA?style=for-the-badge"></a>
 </p>
 
@@ -26,7 +26,7 @@
 | | Link | What you can do |
 |---|---|---|
 | **Demo** | [huggingface.co/spaces/AD074890/ripe-or-not](https://huggingface.co/spaces/AD074890/ripe-or-not) | Upload a fruit photo or click a test photo, then watch the ripeness ruler, the 3 yes/no questions and the Grad-CAM heatmap |
-| **Slides** | [presentation.html](https://ad074890-ripe-or-not.static.hf.space/presentation.html) | 13 slides covering the whole project. Use ← → keys or the dots |
+| **Slides** | [presentation.html](https://ad074890-ripe-or-not.static.hf.space/presentation.html) | 14 slides covering the whole project. Use ← → keys or the dots |
 
 > The models run **inside your browser** (ONNX Runtime Web), so the demo needs no server.
 > The first prediction downloads about 90 MB of model files, which your browser then caches.
@@ -170,7 +170,7 @@ the shared ripeness score, so red means *evidence for riper*.
 ## 🎞️ The presentation
 
 <p align="center">
-  <a href="https://ad074890-ripe-or-not.static.hf.space/presentation.html"><img src="docs/assets/slides_grid.jpg" alt="Six slides from the 13-slide deck" width="100%"></a>
+  <a href="https://ad074890-ripe-or-not.static.hf.space/presentation.html"><img src="docs/assets/slides_grid.jpg" alt="Six slides from the 14-slide deck" width="100%"></a>
 </p>
 
 ---
