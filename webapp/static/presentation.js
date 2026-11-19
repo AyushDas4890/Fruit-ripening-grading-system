@@ -146,13 +146,13 @@ function results(R) {
 
   // error distance bars
   const maxV = Math.max(...Object.values(R.error_dist).flat());
-  $("#pDist").innerHTML = ["1 grade off", "2 grades off", "3 grades off"].map((lab, i) =>
+  if ($("#pDist")) $("#pDist").innerHTML = ["1 grade off", "2 grades off", "3 grades off"].map((lab, i) =>
     `<div class="dist-row"><span class="lab">${lab}</span><div class="dist-bars">${Object.keys(NAMES).map((k) =>
       `<div class="dist-bar mono"><i class="bar-anim" style="background:${COLOR[k]}" data-w="${(R.error_dist[k][i] / maxV) * 80}"></i><span>${R.error_dist[k][i].toFixed(1)}%</span></div>`).join("")}</div></div>`).join("") +
     `<div class="mono small" style="margin-top:8px">${Object.keys(NAMES).map((k) => `<span style="display:inline-flex;gap:6px;align-items:center;margin-right:12px"><i style="width:14px;height:14px;border:2px solid #1a1a1a;border-radius:3px;background:${COLOR[k]}"></i>${NAMES[k]}</span>`).join("")}</div>`;
 
   // three small confusion matrices
-  $("#pCms").innerHTML = Object.keys(NAMES).map((k) => {
+  if ($("#pCms")) $("#pCms").innerHTML = Object.keys(NAMES).map((k) => {
     const cm = R.confusion[k], max = Math.max(...cm.flat());
     let h = `<span class="hd"></span>` + [0, 1, 2, 3].map((j) => `<span class="hd">${j}</span>`).join("");
     cm.forEach((row, i) => {

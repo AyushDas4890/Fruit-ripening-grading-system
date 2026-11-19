@@ -1,10 +1,9 @@
 """Build the PowerPoint version of the presentation (13 slides).
 
-    python deploy/build_pptx.py <folder with hd1.png ... hd14.png>
+    python deploy/build_pptx.py <folder with hd1.png ... hd13.png>
 
 Each slide is a full-bleed 2880x1620 capture of the web presentation (?slide=N&clean),
-so the deck keeps the notebook template exactly. The web deck's slide 12 (error distances +
-confusion matrices) is left out of the PowerPoint. Speaker notes come from
+so the deck keeps the notebook template exactly. Speaker notes come from
 docs/scripts/presenter_script.md (the presenter's own script, numbered for the 13 slides).
 Output: docs/Ripe_or_Not_presentation.pptx
 """
@@ -23,7 +22,7 @@ md = open(os.path.join(ROOT, "docs", "scripts", "presenter_script.md"), encoding
 notes = {}
 for num, body in re.findall(r"^### Slide (\d+) — .*?\n(.*?)(?=^---|^### Slide|\Z)", md, flags=re.S | re.M):
     notes[int(num)] = "\n\n".join(p.strip() for p in body.strip().split("\n\n") if p.strip())
-WEB = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14]   # web slide shown on each PowerPoint slide
+WEB = list(range(1, 14))   # web slide shown on each PowerPoint slide (the decks now match 1:1)
 TITLES = ["Introduction", "Agenda", "Ripeness is a ladder, not a list", "Real photos, two fruits, four stages",
           "From detection boxes to crops", "Same fruit must never sit in train and test",
           "Ask three yes/no questions", "The CORAL head", "A fair, controlled comparison",
